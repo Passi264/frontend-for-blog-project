@@ -13,11 +13,18 @@ export function LoginAccount(){
         e.preventDefault()
         const feed = await loginUser(user)
         if (feed){
-            sessionStorage.setItem("User",feed)
+            // sessionStorage.setItem("User",feed)
             navigate("/Home")
         } else{
             alert("login failed")
         }
+
+        // if (feed){
+        //     // sessionStorage.setItem("User",feed)
+        //     // navigate("/Home")
+        // } else{
+        //     alert("login failed")
+        // }
 
     }
     function handleClick(e){

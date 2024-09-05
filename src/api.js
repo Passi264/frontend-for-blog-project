@@ -65,12 +65,18 @@ export async function createUser(user){
 }
 export async function loginUser(user){
     const response = await axios.post(`${URL}/users/login`,user)
-    console.log(response)
-    if(response.request.status==200){
-        return response.data.token
-    } else{
-        throw new Error(response.statusText)
-    }
+    if(response.data.success){
+                return response.data.user
+            } 
+    else{
+                throw new Error(response.statusText)
+      }
+
+//     if(response.request.status==200){
+//         return response.data.token
+//     } else{
+//         throw new Error(response.statusText)
+//     }
 }
 
 export async function updateUser(id, user){

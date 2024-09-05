@@ -12,14 +12,14 @@ import { Layout } from '../components/Layout'
 import { useEffect } from 'react'
 import axios from 'axios'
 function App(){
-  useEffect(()=>{
-    let token = sessionStorage.getItem("User")
-    console.log(token)
-    if (token){
-      axios.defaults.headers.common["authorization"] = `Bearer ${token}`
-    }
+  // useEffect(()=>{
+  //   let token = sessionStorage.getItem("User")
+  //   console.log(token)
+  //   if (token){
+  //     axios.defaults.headers.common["authorization"] = `Bearer ${token}`
+  //   }
     
-  },[])
+  // },[])
   
                  
 return (

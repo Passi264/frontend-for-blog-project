@@ -8,7 +8,7 @@ import { Landing } from '../pages/Landing'
 import { Profile } from '../pages/Profile'
 import { ReadBlog } from '../pages/ReadBlog'
 import { Navbar } from '../components/Navbar'
-import { Layout } from '../components/layout'
+import { Layout } from '../components/Layout'
 import { useEffect } from 'react'
 import axios from 'axios'
 function App(){

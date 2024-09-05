@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import { pageData } from "./pagedata"
+import { pageData } from "./pageData"
 import { useNavigate } from "react-router-dom"
 export function Navbar(){
   const navigate= useNavigate()

@@ -1,5 +1,5 @@
 import axios from "axios"
-const URL= "https://backend-for-blog-website.vercel.app"
+const URL= "https://mongobase-two.vercel.app/"
 export async function getPosts(){
     const response = await axios.get(`${URL}/posts`)
     if (response.status===200){

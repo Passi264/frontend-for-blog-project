@@ -9,15 +9,24 @@ export function LoginAccount(){
         email:"",
         password:""
     })
-    async function handleSubmit(e){
-        e.preventDefault()
-        const feed = await loginUser(user)
-        if (feed){
-            // sessionStorage.setItem("User",feed)
-            navigate("/Home")
-        } else{
-            alert("login failed")
+    async function handleSubmit(e) {
+        e.preventDefault();
+        
+        try {
+            const feed = await loginUser(user);
+            
+            if (feed) {
+                // sessionStorage.setItem("User", JSON.stringify(feed)); // Optional: Store user data in session storage
+                navigate("/Home");
+            } else {
+                alert("Login failed. Please check your credentials.");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("An error occurred during login. Please try again.");
         }
+    
+    
 
         // if (feed){
         //     // sessionStorage.setItem("User",feed)

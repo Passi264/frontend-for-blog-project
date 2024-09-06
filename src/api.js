@@ -77,16 +77,17 @@ export async function loginUser(user) {
         const response = await axios.post(`${URL}/users/login`, user);
 
         if (response.data.success) {
-            return response.data.user;
+            return response.data.user;  // Ensure this is the expected response from the backend
+            console.log(response)
         } else {
-            // Throw an error if login fails
             throw new Error(response.data.message || 'Login failed');
         }
     } catch (error) {
         console.error("Login error:", error);
-        throw error;  // Re-throw the error to be handled by the calling function
+        throw error;
     }
 }
+
 
 
 // Function to update a user by ID

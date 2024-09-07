@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loginUser } from "../src/api";
 import { useNavigate } from "react-router-dom";
 
+
 export function LoginAccount() {
     const navigate = useNavigate();
     const [user, setUser] = useState({
@@ -11,44 +12,60 @@ export function LoginAccount() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        
+
         console.log("Form submitted with user:", user);  // Debug log
 
         try {
             const feed = await loginUser(user);
             
-            console.log("Login response:", feed);  // Debug log for loginUser response
+            console.log("LoginUser response:", feed);  // Debug log for response
 
             if (feed) {
-                console.log("Login successful, navigating to /Home");  // Debug successful login
-                navigate("/Home");
+                console.log("Login successful, storing user and navigating to /Home");
+                sessionStorage.setItem("User", feed);  // Store user data in session storage
+                navigate("/Home");  // Navigate to Home after successful login
             } else {
-                console.log("Login failed, invalid credentials");  // Debug failed login
+                console.log("Login failed: Incorrect credentials or issue with login");
                 alert("Login failed. Please check your credentials.");
             }
         } catch (error) {
-            console.error("Login error:", error);  // Log the error
+            console.error("Login error:", error);  // Log any errors from the login attempt
             alert("An error occurred during login. Please try again.");
         }
     }
 
     function handleClick(e) {
         setUser({ ...user, [e.target.name]: e.target.value });
-        console.log("Input changed:", { [e.target.name]: e.target.value });  // Debug input changes
+        // Debug input changes
     }
 
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <label>Enter your email</label>
-                <input type="text" onChange={handleClick} placeholder="enter your email" required name="email" />
+                <input 
+                    type="text" 
+                    onChange={handleClick} 
+                    placeholder="enter your email" 
+                    required 
+                    name="email"
+                />
+                
                 <label>Enter your password</label>
-                <input type="password" onChange={handleClick} placeholder="enter your password" required name="password" />
+                <input 
+                    type="password" 
+                    onChange={handleClick} 
+                    placeholder="enter your password" 
+                    required 
+                    name="password"
+                />
+                
                 <button type="submit">Click here to login</button>
             </form>
         </>
     );
 }
+
 
 
 

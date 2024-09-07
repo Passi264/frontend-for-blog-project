@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Removed trailing slash from the base URL
-const URL = "https://mongobase-two.vercel.app";
+const URL = "http://localhost:3009";
 
 // Function to get all posts
 export async function getPosts() {
@@ -72,21 +72,17 @@ export async function createUser(user) {
 }
 
 // Function to log in a user
-export async function loginUser(user) {
-    try {
-        const response = await axios.post(`${URL}/users/login`, user);
-
-        if (response.data.success) {
-            return response.data.user;  // Ensure this is the expected response from the backend
-            console.log(response)
-        } else {
-            throw new Error(response.data.message || 'Login failed');
-        }
-    } catch (error) {
-        console.error("Login error:", error);
-        throw error;
+export async function loginUser(user){
+    const response = await axios.post(`${URL}/users/login`,user)
+    console.log(response)
+    if (response.data.success) {
+        return response.data.token
+    } else {
+        return
     }
 }
+
+
 
 
 
@@ -181,21 +177,6 @@ export async function getImage(id) {
 //     const response = await axios.post(`${URL}/users`,user)
 //         return response
 // }
-// export async function loginUser(user){
-//     const response = await axios.post(`${URL}/users/login`,user)
-//     if(response.data.success){
-//                 return response.data.user
-//             } 
-//     else{
-//                 throw new Error(response.statusText)
-//       }
-
-// //     if(response.request.status==200){
-// //         return response.data.token
-// //     } else{
-// //         throw new Error(response.statusText)
-// //     }
-// }
 
 // export async function updateUser(id, user){
 //     const response = await axios.put(`${URL}/users/${id}`,user)
@@ -217,3 +198,18 @@ export async function getImage(id) {
 //     return response
 // }
 
+// export async function loginUser(user) {
+//     try {
+//         const response = await axios.post(`${URL}/users/login`, user);
+
+//         if (response.data.success) {
+//             return response.data.user;  // Ensure this is the expected response from the backend
+//             console.log(response)
+//         } else {
+//             throw new Error(response.data.message || 'Login failed');
+//         }
+//     } catch (error) {
+//         console.error("Login error:", error);
+//         throw error;
+//     }
+// }

@@ -7,19 +7,27 @@ import { Home } from '../pages/Home';
 import { Landing } from '../pages/Landing';
 import { Profile } from '../pages/Profile';
 import { ReadBlog } from '../pages/ReadBlog';
-import { Navbar } from '../components/Navbar';
 import { Layout } from '../components/Layout';
 import { useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
-  // Handle session storage if needed
-  // useEffect(() => {
-  //   let token = sessionStorage.getItem("User")
-  //   if (token) {
-  //     axios.defaults.headers.common["authorization"] = `Bearer ${token}`
-  //   }
-  // }, []);
+  useEffect(() => {
+    let token = sessionStorage.getItem("User")
+    if (token) {
+      token = token.replace(/^"|"$/g, '');  // Remove surrounding double quotes if they exist
+  
+      axios.interceptors.request.use(
+        (config) => {
+          config.headers["Authorization"] = `Bearer ${token}`;
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+    }
+  }, []);
 
   return (
     <>

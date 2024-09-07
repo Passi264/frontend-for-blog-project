@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Removed trailing slash from the base URL
-const URL = "http://localhost:3009";
+const URL = "https://backendweb-seven.vercel.app";
 
 // Function to get all posts
 export async function getPosts() {

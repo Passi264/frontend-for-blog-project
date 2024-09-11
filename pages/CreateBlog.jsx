@@ -8,7 +8,8 @@ export function CreateBlog(){
     const [file, setFile] = useState()
     const inputFile = useRef(null)
     const Max_Size = 15000000
-    async function handleClick(){
+    async function handleClick(e){
+        e.preventDefault();
         let object={
             title:title,
             description:description,

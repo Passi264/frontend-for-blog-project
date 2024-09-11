@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Removed trailing slash from the base URL
-const URL = "https://backendweb-seven.vercel.app";
+const URL = "https://vercel.com/prateek-passis-projects/backendweb";
 
 // Function to get all posts
 export async function getPosts() {
@@ -26,6 +26,7 @@ export async function getPost(id) {
 export async function createPost(post) {
     console.log(post);
     const data = await createImage(post.file);
+    console.log(data)
     const imageId = post.file.name;
     post.imageId = imageId;
     const response = await axios.post(`${URL}/posts`, post);

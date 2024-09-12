@@ -1,11 +1,14 @@
-import { getChallenges, getPosts } from "../src/api"
+import { getChallenges, getPost, getPosts } from "../src/api"
 import {useState,useEffect, useRef} from "react"
 import { BlogCard } from "../components/BlogCard"
-import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge } from "@chakra-ui/react"
+import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar } from "@chakra-ui/react"
 import { Typewriter } from 'react-simple-typewriter'
+import BrandSlider from "../components/Slider"
+import Loader from "../components/Loader"
 
 export function Home(){
-    const [post,setPost] = useState([])
+    const [post,setPost] = useState()
+    const [blogs, setBlogs] = useState()
     const colorSchemes = [
         'pink', 'blue', 'green', 'teal', 'red', 
         'orange', 'yellow', 'purple', 'cyan', 'gray'
@@ -15,7 +18,11 @@ export function Home(){
         async function LoadAllPosts(){
             const data = await getChallenges()
             data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-            setPost(() => data)
+            setPost( () => data)
+
+            const blogData = await getPosts()
+            blogData.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
+            setBlogs(() => blogData)
         }
         LoadAllPosts()
     }
@@ -23,13 +30,13 @@ export function Home(){
 
 return(
     <Box>
-        <VStack px='1dvw' py='6dvh' align='center' justify='center'>
-            <Heading fontWeight='600' as='h1' fontSize='10dvh' textAlign='center'>
+        <VStack px='1dvw' py='15dvh' align='center' justify='center'>
+            <Heading fontWeight='300' as='h1' fontSize='10dvh' textAlign='center'>
                 Put Your Pen to the Test
             </Heading>
             <Heading fontWeight='500' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' as='h4'  fontSize='10dvh' textAlign='center'>
                 <Typewriter
-                        words={['Join Our Community','Explore Challenges',' Submit Your Work','Earn Points and Feedbacks', 'Climb the Rankings', 'Connect and Grow']}
+                        words={['Join Our Community','Explore Challenges',' Submit Your Work','Earn Points', 'and Feedbacks', 'Climb the Rankings', 'Connect and Grow']}
                         loop={true}
                         cursor
                         cursorStyle='_'
@@ -47,18 +54,52 @@ return(
                 </form>
                 <Text py='1dvh' fontSize='.8dvw' color='#FF0080' textAlign='center'>Never Miss a Challenge - Subscribe to Our Newsletter</Text>
             </Box>
+            <Box py='2dvh'>
+                <VStack>
+                    <AvatarGroup size='xl' py='1dvh' max={10}>
+                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
+                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
+                        <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
+                        <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                    </AvatarGroup>
+                    <Text bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' fontSize='1.5dvw' fontWeight='500' textAlign='center' py='1dvh'>Join the ranks of users who've worked with top tier companies!</Text>
+                </VStack>
+            </Box>
         </VStack>
-        <VStack align='left'>
-            <Heading>
+        <VStack align='left' px='1dvw' py='4dvh' >
+            <Heading >
                 Trending Challenges
             </Heading>
-            <Flex py='3dvh' px='2dvw' gap='1dvw' flexWrap='wrap'>
-                    {post.map((post, index)=>{  
+            <Flex py='3dvh' gap='1dvw' flexWrap='wrap' >
+                    {post ? post.map((post, index)=>{  
                         const colorScheme = colorSchemes[index % colorSchemes.length]
                     return(
                         <Badge key={index} colorScheme={colorScheme} p='1dvh 1dvw' borderRadius='1.5dvw' fontSize='1dvw' fontWeight='500' ><i className="fa-solid fa-hashtag"></i> {post.title}</Badge>
                     )
-                })}
+                }) : <Flex py='3dvh' gap='1dvw' flexWrap='wrap'>
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                     <Skeleton p='1dvh 1dvw' width='17dvw' height='5dvh' borderRadius='1.5dvw' />
+                </Flex> }
             </Flex>
         </VStack>
     </Box>

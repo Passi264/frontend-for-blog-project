@@ -22,7 +22,7 @@ export function Navbar(){
     <Flex p='2.5dvh 1dvw' justify='space-between' align='center'>
       <Flex gap='2dvw' align='center'>
         <Link to='/Home'>
-          <Heading>CopyWriter</Heading>
+          <Heading fontWeight='400' fontSize='1.5dvw' >CopyWriter</Heading>
         </Link>
         <InputGroup>
           <InputLeftElement>

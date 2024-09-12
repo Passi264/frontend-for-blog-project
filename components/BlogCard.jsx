@@ -25,5 +25,28 @@ export function BlogCard({post, index}){
             </Link>
           </CardFooter>
         </Card>
+
+
+/* <VStack  align='left' px='1dvw' py='4dvh'>
+<Heading>
+    Community's Favourite
+</Heading>
+<Box>
+<Flex py='3dvh' px='1dvw' gap='1dvw' flexWrap='nowrap' overflow='scroll'>
+    {blogs ? blogs.map( (e, index) => (
+        <BlogCard post={e} index={index} />
+    )) : <Flex py='3dvh' gap='1dvw' flexWrap='nowrap' overflow='scroll'>
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
+</Flex> }
+</Flex>
+</Box>
+</VStack> */
+
+
     )
 }

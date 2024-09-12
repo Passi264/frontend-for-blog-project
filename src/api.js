@@ -1,17 +1,41 @@
 import axios from "axios";
 
+
 // Removed trailing slash from the base URL
 const URL = "http://localhost:3009";
 
 // Function to get all posts
 export async function getPosts() {
-    const response = await axios.get(`${URL}/posts`);
-    if (response.status === 200) {
-        return response.data;
-    } else {
-        return;
+    try {
+        const response = await axios.get(`${URL}/posts`);
+        if (response.status === 200) {
+            return response.data; // Return data on successful response
+        } else {
+            console.error('Unexpected response status:', response.status);
+            return []; // Return an empty array if status is not 200
+        }
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        return []; // Return an empty array in case of error
     }
 }
+
+export async function getChallenges() {
+
+    try {
+        const response = await axios.get(`${URL}/challengecome`);
+        if (response.status === 200) {
+            return response.data; // Return data on successful response
+        } else {
+            console.error('Unexpected response status:', response.status);
+            return []; // Return an empty array if status is not 200
+        }
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        return []; // Return an empty array in case of error
+    }
+}
+
 
 // Function to get a specific post by ID
 export async function getPost(id) {

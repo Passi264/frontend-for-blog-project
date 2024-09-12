@@ -5,6 +5,7 @@ import { BlogCard } from "../components/BlogCard";
 export function Profile(){
     const [num,setPost] = useState([])
     const [user,setUser] = useState({})
+    
     useEffect(()=>{
         async function loadPosts(){
             const token = sessionStorage.getItem("User")

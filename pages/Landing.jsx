@@ -3,6 +3,7 @@ import { LoginAccount } from "../components/LoginAccount"
 import { useState } from "react"
 export function Landing(){
     const [view,setView] = useState(0)
+    
     return(
         <>
         {!view?

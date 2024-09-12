@@ -3,7 +3,6 @@ import {useState,useEffect, useRef} from "react"
 import { BlogCard } from "../components/BlogCard"
 import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge } from "@chakra-ui/react"
 import { Typewriter } from 'react-simple-typewriter'
-import { useRevalidator } from "react-router-dom"
 
 export function Home(){
     const [post,setPost] = useState([])

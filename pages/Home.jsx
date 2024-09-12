@@ -11,7 +11,7 @@ export function Home(){
         }
         LoadAllPosts()
     }
-    ,[])
+    ,[post])
 
 return(
         <div className="posts">

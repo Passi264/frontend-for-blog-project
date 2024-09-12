@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Removed trailing slash from the base URL
-const URL = "https://backendweb-seven.vercel.app";
+const URL = "http://localhost:3009";
 
 // Function to get all posts
 export async function getPosts() {
@@ -111,6 +111,19 @@ export async function getImage(id) {
     return response;
 }
 
+export async function getChallenges() {
+    const response = await axios.get(`${URL}/challengecome`);
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        return;
+    }
+}
+
+export async function createChallenge(Challenge) {
+    const response = await axios.post(`${URL}/challenge`, Challenge);
+    return response;
+}
 
 
 // import axios from "axios"

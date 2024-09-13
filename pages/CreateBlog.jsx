@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FormControl, FormLabel, Grid, GridItem, Heading, Input, InputGroup, InputLeftAddon, Radio, RadioGroup, Select, Stack, Text, Textarea } from "@chakra-ui/react"
+import { Box, Button, Divider, Image, FormControl, FormLabel, Grid,Flex, GridItem, Heading, Input, InputGroup, InputLeftAddon, Radio, RadioGroup, Select, Stack, Text, Textarea } from "@chakra-ui/react"
 import { createPost, getChallenges } from "../src/api"
 import {useState, useRef, useEffect} from "react"
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,7 @@ export function CreateBlog(){
     const [file, setFile] = useState()
     const inputFile = useRef(null)
     const Max_Size = 15000000
+    const [filePreview, setPreview] = useState()
 
 
     async function handleClick(e){
@@ -75,6 +76,23 @@ export function CreateBlog(){
             return
         }
         setFile(file)
+
+        const pFile = e.target.files[0]; // Get the first file
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setPreview(reader.result); // Update state with the file data URL
+            };
+
+            reader.onerror = (error) => {
+                console.error("Error reading file:", error);
+            };
+
+            reader.readAsDataURL(pFile); // Read the file as a Data URL
+        }
+
     }
 
 
@@ -106,13 +124,25 @@ export function CreateBlog(){
                             <Input type="text" onChange={(e)=>setDescription(e.target.value)} maxLength={100} required  placeholder="Make it descriptive but not too much..." />
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan='6' py='1dvh' >
+                    <GridItem colSpan='4' py='1dvh' >
                         <FormControl>
                             <FormLabel  bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' >
                                 Enter the body below or main content
                             </FormLabel>
-                            <Textarea minH='20dvh' onChange={(e)=>setContent(e.target.value)} maxLength={100000} required placeholder="Something Brief is what we are looking for here... yeah like real descriptive" />
+                            <Textarea minH='33dvh' onChange={(e)=>setContent(e.target.value)} maxLength={100000} required placeholder="Something Brief is what we are looking for here... yeah like real descriptive" />
                         </FormControl>
+                    </GridItem>
+                    <GridItem colSpan='2'  display='flex' justifyContent='center' alignItems='center' flexDirection='column'>
+                        {filePreview && 
+                                        <Box  display='flex' justifyContent='center' alignContent='center' alignItems='center' >
+                                            <Image boxSize='300px' objectFit='cover' src={filePreview} alt={`Uploaded Image`} />
+                                        </Box>  }
+                        <Box >
+                                <FormControl display='flex' py='1dvh' >
+                                    <FormLabel display='flex' justifyContent='center' borderRadius='10dvw' boxShadow='xl' alignItems='center' margin='0' color='white' padding='.5em 2em' bgGradient='linear(to-l, #7928CA, #FF0080)' cursor='pointer' ><i className="fa-regular fa-file"></i> &nbsp; {filePreview ? "File Uploaded" : "Upload a file"}</FormLabel>
+                                    <Input display='none' type='file' accept='image/*' ref={inputFile} onChange={handleFile} />
+                                </FormControl>
+                        </Box>
                     </GridItem>
                     <GridItem colSpan='1'>
                     <FormLabel bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' fontWeight='500' pb='1dvh' >Is this part of Challenge?</FormLabel>
@@ -121,7 +151,7 @@ export function CreateBlog(){
                                     <option value='2' >No</option>
                                 </Select>
                     </GridItem>
-                    <GridItem  colSpan='3' >
+                    <GridItem  colSpan='5' >
                         <FormLabel bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' fontWeight='500' pb='1dvh' >Select the challenge.</FormLabel>
                         {challenge === '1' ? 
                             <InputGroup>
@@ -136,25 +166,14 @@ export function CreateBlog(){
                         : 
                         <Input color='tomato' variant='filled' readOnly type="text" value="This is going to be individual post" /> }
                     </GridItem>
-                    <GridItem colSpan='3'>
-                        <Input type="file" onChange={handleFile} required ref={inputFile} />
+                    <GridItem colSpan='6' py='2dvh' display='flex' justifyContent='center'>
+                        <Button boxShadow='xl' py='3dvh' width='50%' bgGradient='linear(to-l, #7928CA, #FF0080)'  color='white' fontSize='1.2dvw' borderRadius='3dvw' type="submit">Submit</Button>
                     </GridItem>
-                    <GridItem colSpan='3'>
-                        <Button type="submit">Submit</Button>
+                    <GridItem colSpan='6' py='1dvh'>
+                        <Divider borderRadius='1dvw'  bgGradient='linear(to-r, #7928CA, #FF0080)'  py='.1dvh' width='100%' />
                     </GridItem>
                 </Grid>
             </form>
         </Box>
-        // <form onSubmit={handleClick}>
-        //      <label>Enter the title</label>
-        //      <input type="text" onChange={(e)=>setTitle(e.target.value)} maxLength={50} required placeholder="enter the title"></input>
-        //      <label>Enter the description</label>
-        //      <input type="text" onChange={(e)=>setDescription(e.target.value)} maxLength={100} required placeholder="enter the description"></input>
-        //      <label>Enter the content</label>
-        //      <textarea onChange={(e)=>setContent(e.target.value)} maxLength={100000} required placeholder="enter the content"></textarea>
-        //      <label>insert header image</label>
-        //      <input type="file" onChange={handleFile} required ref={inputFile}></input>
-        //      <button type="submit">CLICK HERE TO CREATE YOUR POST</button>
-        // </form>
     )
 }

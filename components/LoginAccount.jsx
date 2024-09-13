@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../src/api";
 import { useNavigate } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, Center, FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
 
 
 export function LoginAccount() {
@@ -41,7 +42,36 @@ export function LoginAccount() {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
+            <Card width='50dvw' boxShadow='none' borderRadius='1dvw' px='2dvw' size='lg'>
+                <CardBody py='2dvh'>
+                    <Box py='1dvh'>
+                        <FormControl>
+                            <FormLabel>
+                                Username or Email
+                            </FormLabel>
+                            <Input type="text" required onChange={handleClick} name="email" placeholder="blackdino@snail.com" />
+                        </FormControl>
+                    </Box>
+                    <Box py='1dvh'>
+                        <FormControl>
+                            <FormLabel>
+                                Password
+                            </FormLabel>
+                            <Input type="password" required onChange={handleClick} name="password" placeholder="ilovethatsnail" />
+                        </FormControl>
+                    </Box>
+                    <Box py='2dvh'>
+                        <Center>
+                            <Button boxShadow='md' px='5dvh' type="submit">Log in</Button>
+                        </Center>
+                    </Box>
+                </CardBody>
+            </Card>
+        </form>
+
+
+            {/* <form onSubmit={handleSubmit}>
                 <label>Enter your email</label>
                 <input 
                     type="text" 
@@ -61,7 +91,7 @@ export function LoginAccount() {
                 />
                 
                 <button type="submit">Click here to login</button>
-            </form>
+            </form> */}
         </>
     );
 }

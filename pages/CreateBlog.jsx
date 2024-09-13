@@ -1,8 +1,12 @@
 import { Box, Button, Divider, FormControl, FormLabel, Grid, GridItem, Heading, Input, InputGroup, InputLeftAddon, Radio, RadioGroup, Select, Stack, Text, Textarea } from "@chakra-ui/react"
 import { createPost, getChallenges } from "../src/api"
 import {useState, useRef, useEffect} from "react"
+import { useNavigate } from "react-router-dom";
+
 
 export function CreateBlog(){
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
         async function LoadAllPosts(){
@@ -30,8 +34,6 @@ export function CreateBlog(){
     async function handleClick(e){
         e.preventDefault()
 
-        console.log(chId)
-
         if(challenge === '2' || chId === ""){
             setChid(null)
         }
@@ -46,7 +48,14 @@ export function CreateBlog(){
             challengeId: chId
 
         }
-        await createPost(object)
+        try{
+            await createPost(object)
+        }
+        catch(error){
+            console.log("Some error", error)
+        }
+
+        navigate('/home')
     }
 
     function handleFile(e){
@@ -77,7 +86,7 @@ export function CreateBlog(){
     return(
         <Box py='6dvh' px='1dvw'>
             <Heading textAlign='center' fontSize='4dvw' fontWeight='600'>this where it all starts...</Heading>
-            <Text pt='1dvh' pb='3dvh' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' >Fill in the fields below to publish your writing</Text>
+            <Text textAlign='center' pt='1dvh' pb='3dvh' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' >Fill in the fields below to publish your writing</Text>
             <Divider borderRadius='1dvw'  bgGradient='linear(to-r, #7928CA, #FF0080)'  py='.1dvh' width='100%' />
             <form onSubmit={handleClick}>
                 <Grid templateColumns='repeat(6, 1fr)' py='3dvh' gap='1dvw'>

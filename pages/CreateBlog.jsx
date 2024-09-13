@@ -102,9 +102,11 @@ export function CreateBlog(){
 
 
     return(
-        <Box py='6dvh' px='1dvw'>
-            <Heading textAlign='center' fontSize='4dvw' fontWeight='600'>this where it all starts...</Heading>
-            <Text textAlign='center' pt='1dvh' pb='3dvh' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' >Fill in the fields below to publish your writing</Text>
+        <Box py='2dvh' px='1dvw'>
+            <Box py='4dvh'>
+                <Heading textAlign='center'  fontSize='4dvw' fontWeight='400'>this where it all starts...</Heading>
+                <Text textAlign='center' pt='1dvh' pb='3dvh' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' >Fill in the fields below to publish your writing</Text>
+            </Box>
             <Divider borderRadius='1dvw'  bgGradient='linear(to-r, #7928CA, #FF0080)'  py='.1dvh' width='100%' />
             <form onSubmit={handleClick}>
                 <Grid templateColumns='repeat(6, 1fr)' py='3dvh' gap='1dvw'>
@@ -134,11 +136,11 @@ export function CreateBlog(){
                     </GridItem>
                     <GridItem colSpan='2'  display='flex' justifyContent='center' alignItems='center' flexDirection='column'>
                         {filePreview && 
-                                        <Box  display='flex' justifyContent='center' alignContent='center' alignItems='center' >
+                                        <Box pt='2dvh' display='flex' justifyContent='center' alignContent='center' alignItems='center' >
                                             <Image boxSize='300px' objectFit='cover' src={filePreview} alt={`Uploaded Image`} />
                                         </Box>  }
                         <Box >
-                                <FormControl display='flex' py='1dvh' >
+                                <FormControl display='flex' pt='2dvh' >
                                     <FormLabel display='flex' justifyContent='center' borderRadius='10dvw' boxShadow='xl' alignItems='center' margin='0' color='white' padding='.5em 2em' bgGradient='linear(to-l, #7928CA, #FF0080)' cursor='pointer' ><i className="fa-regular fa-file"></i> &nbsp; {filePreview ? "File Uploaded" : "Upload a file"}</FormLabel>
                                     <Input display='none' type='file' accept='image/*' ref={inputFile} onChange={handleFile} />
                                 </FormControl>

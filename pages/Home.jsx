@@ -1,7 +1,7 @@
 import { getChallenges, getPost, getPosts } from "../src/api"
 import {useState,useEffect, useRef} from "react"
 import { BlogCard } from "../components/BlogCard"
-import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar } from "@chakra-ui/react"
+import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar, GridItem, SimpleGrid } from "@chakra-ui/react"
 import { Typewriter } from 'react-simple-typewriter'
 import BrandSlider from "../components/Slider"
 import Loader from "../components/Loader"
@@ -17,16 +17,31 @@ export function Home(){
     useEffect(()=>{
         async function LoadAllPosts(){
             const data = await getChallenges()
-            data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-            setPost( () => data)
+            if(data === null){
+                return null
+            }
+            else{
+                data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
+                const limitedData = data.slice(0,12)
+                setPost( () => limitedData)
+            }
+            
 
             const blogData = await getPosts()
-            blogData.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-            setBlogs(() => blogData)
+            if(blogData === null){
+                return null
+            }
+            else{
+                blogData.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
+                const limitBlog = blogData.slice(0,3)
+                setBlogs(() => limitBlog)
+            }
         }
         LoadAllPosts()
     }
     ,[])
+
+
 
 return(
     <Box>
@@ -102,25 +117,21 @@ return(
                 </Flex> }
             </Flex>
         </VStack>
-        <VStack  align='left' px='1dvw' py='4dvh'>
-<Heading>
-    Community's Favourite
-</Heading>
-<Box>
-<Flex py='3dvh' px='1dvw' gap='1dvw' flexWrap='nowrap' overflow='scroll'>
-    {blogs ? blogs.map( (e, index) => (
-        <BlogCard post={e} index={index} />
-    )) : <Flex py='3dvh' gap='1dvw' flexWrap='nowrap' overflow='scroll'>
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-    <Skeleton p='1dvh 1dvw' width='30dvw' height='20dvh' borderRadius='1.5dvw' />
-</Flex> }
-</Flex>
-</Box>
-</VStack> 
+        <VStack align='left' px='1dvw' py='4dvh' >
+            <Heading>
+                Community's Favourite
+            </Heading>
+            <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' >
+                {blogs ? blogs.map( (e, index) => {
+                    return(
+                        <BlogCard post={e} index={index} />
+                )}) : <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'>
+                <Skeleton width='10dvw'  borderRadius='1.5dvw' />
+                <Skeleton borderRadius='1.5dvw' />
+                <Skeleton  borderRadius='1.5dvw' />
+                </SimpleGrid> }
+            </SimpleGrid>
+        </VStack>
     </Box>
         // <div className="posts">
         // </div>

@@ -12,11 +12,11 @@ export async function getPosts() {
             return response.data; // Return data on successful response
         } else {
             console.error('Unexpected response status:', response.status);
-            return []; // Return an empty array if status is not 200
+            return null; // Return an empty array if status is not 200
         }
     } catch (error) {
         console.error('Error fetching posts:', error);
-        return []; // Return an empty array in case of error
+        return null; // Return an empty array in case of error
     }
 }
 

@@ -119,18 +119,21 @@ return(
         </VStack>
         <VStack align='left' px='1dvw' py='4dvh' >
             <Heading>
-                Community's Favourite
+                Most Recents
             </Heading>
-            <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' >
-                {blogs ? blogs.map( (e, index) => {
+                { blogs ? 
+                <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' >
+                    {blogs.map( (e, index) => {
                     return(
                         <BlogCard post={e} index={index} />
-                )}) : <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'>
-                <Skeleton width='10dvw'  borderRadius='1.5dvw' />
+                )})}
+                </SimpleGrid>
+                 : <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'>
+                <Skeleton borderRadius='1.5dvw' />
                 <Skeleton borderRadius='1.5dvw' />
                 <Skeleton  borderRadius='1.5dvw' />
                 </SimpleGrid> }
-            </SimpleGrid>
+
         </VStack>
     </Box>
         // <div className="posts">

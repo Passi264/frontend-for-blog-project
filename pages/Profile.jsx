@@ -11,33 +11,27 @@ export function Profile(){
 
     const [joinDate, setDate] = useState()
 
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZoneName: 'short'
-      };
-      
 
 
     useEffect(()=>{
-        async function loadPosts(){
-            const token = sessionStorage.getItem("User")
-            const decodeUser = jwt_decode.jwtDecode(token)
+        const token = sessionStorage.getItem("User")
+        const decodeUser = jwt_decode.jwtDecode(token)
+        const action = async function loadPosts(decodeUser){
             const allPosts = await getPosts()
-            const filteredpost= allPosts.filter((post)=>post.author == decodeUser._id)
+            const filteredpost= allPosts?.filter((post)=>post.author == decodeUser._id)
             setPost(filteredpost)
             setUser(decodeUser)
             console.log(num)
-            const readableDate = new Date(user?.joinDate);
-            setDate(format(readableDate, 'd MMM yyyy'))
+            const readableDate = new Date(decodeUser?.joinDate);
+            if (!isNaN(readableDate.getTime())) {
+                setDate(format(readableDate, 'd MMM yyyy'));
+            } else {
+                console.warn('Invalid join date');
+            }
 
         }
-        loadPosts()
-    },[])
+        action(decodeUser)
+    }, [])
     return(
         <Grid templateColumns='repeat(6, 1fr)'>
             <GridItem colSpan='2' boxShadow='lg' borderRadius='1dvw'>

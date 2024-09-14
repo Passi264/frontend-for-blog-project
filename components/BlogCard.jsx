@@ -23,7 +23,7 @@ export function BlogCard({post, index, color, image}){
       async function getImg(){
       const data = await getImage(post?.imageId)
       console.log(data)
-      setImg(()=> data.data)
+      setImg(data.data)
       }
       getImg()
     }

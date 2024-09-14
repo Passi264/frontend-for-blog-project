@@ -7,16 +7,21 @@ const URL = "https://backendweb-seven.vercel.app";
 // Function to get all posts
 export async function getPosts() {
     try {
-        const response = await axios.get(`${URL}/posts`);
+        const token = sessionStorage.getItem('User'); // or localStorage.getItem('User');
+        const response = await axios.get(`${URL}/posts`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         if (response.status === 200) {
-            return response.data; // Return data on successful response
+            return response.data;
         } else {
             console.error('Unexpected response status:', response.status);
-            return null; // Return an empty array if status is not 200
+            return null;
         }
     } catch (error) {
         console.error('Error fetching posts:', error);
-        return null; // Return an empty array in case of error
+        return null;
     }
 }
 
@@ -84,6 +89,7 @@ export async function userPosts() {
 export async function getUser(id) {
     const response = await axios.get(`${URL}/users/${id}`);
     if (response.status === 200) {
+        console.log(response.data)
         return response.data;
     } else {
         return;
@@ -97,17 +103,34 @@ export async function createUser(user) {
 }
 
 // Function to log in a user
-export async function loginUser(user){
-    const response = await axios.post(`${URL}/users/login`,user)
-    console.log(response)
-    if (response.data.success) {
-        return response.data.token
-    } else {
-        return
+// export async function loginUser(user){
+//     const response = await axios.post(`${URL}/users/login`,user)
+//     console.log(response)
+//     if (response.data.success) {
+//         return response.data.token
+//     } else {
+//         return
+//     }
+// }
+
+export async function loginUser(user) {
+    try {
+      const response = await axios.post(`${URL}/users/login`, user);
+      if (response.data.success) {
+        const token = response.data.token;
+        // Store the token in sessionStorage or localStorage
+        sessionStorage.setItem('User', token); // or localStorage.setItem('User', token);
+        console.log(token)
+        return token;
+      } else {
+        console.error('Login failed:', response.data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      return null;
     }
-}
-
-
+  }
 
 
 
@@ -131,7 +154,12 @@ export async function createImage(file) {
 
 // Function to get an image by ID
 export async function getImage(id) {
-    const response = await axios.get(`${URL}/images/${id}`);
+    const token = sessionStorage.getItem('User');
+    const response = await axios.get(`${URL}/images/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     return response;
 }
 

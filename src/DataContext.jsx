@@ -2,16 +2,19 @@ import { createContext, useEffect, useState } from "react";
 import * as jwt_decode from "jwt-decode";
 import { getChallenges, getPost, getPosts } from "./api";
 
+
 const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
+    const [fliker, setFliker] = useState(false)
     const [login, setLogin] = useState(false)
     const [posts, setPosts] = useState()
     const [user, setUser] = useState()
     const [challenges, setChallenges] = useState()
 
     useEffect( () => {
+        console.log('Context API rendered')
             let token = sessionStorage.getItem("User")
             if(token){
                 token = token.replace(/^"|"$/g, '')
@@ -49,12 +52,13 @@ export const DataProvider = ({ children }) => {
                     console.log(err)
                 }
             }
-        }, [login])
+        }, [login, fliker])
 
     const updateLog = () => setLogin(!login)
+    const runFliker = () => setFliker(!fliker)
 
     return(
-        <DataContext.Provider value={{posts, challenges, user, updateLog}} >
+        <DataContext.Provider value={{posts, challenges, user, updateLog, runFliker }} >
             {children}
         </DataContext.Provider>
     )

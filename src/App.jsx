@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { About } from '../pages/About';
 import { Contact } from '../pages/Contact';
 import { CreateBlog } from '../pages/CreateBlog';
@@ -8,10 +8,26 @@ import { Landing } from '../pages/Landing';
 import { Profile } from '../pages/Profile';
 import { ReadBlog } from '../pages/ReadBlog';
 import { Layout } from '../components/Layout';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import axios from 'axios';
+import DataContext from './dataContext';
 
 function App() {
+
+  function Fliker(){
+
+    const {runFliker} = useContext(DataContext)
+    const location = useLocation()
+    
+    useEffect(()=>{
+      runFliker()
+    }, [location])
+
+    return(
+      null
+    )
+  }
+
   useEffect(() => {
     let token = sessionStorage.getItem("User")
     if (token) {
@@ -32,6 +48,7 @@ function App() {
   return (
     <>
       <Router>
+        <Fliker />
         <Routes>
           <Route path="/" element={<Landing/>} />
           <Route element={<Layout/>}>

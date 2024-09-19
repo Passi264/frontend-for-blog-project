@@ -26,7 +26,7 @@ export function Profile(){
 
     return(
         <Grid templateColumns='repeat(6, 1fr)' gap='1dvw' >
-            <GridItem colSpan='2' p='1.5dvw' >
+            <GridItem colSpan='2' p='1.5dvw'  >
                 <VStack align='center' py='1dvh' px='2dvw' >
                         <Flex align='center' >
                             <Avatar size='xl' name={user?.name} src={user?.image} />

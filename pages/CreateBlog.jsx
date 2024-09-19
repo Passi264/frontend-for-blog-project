@@ -127,7 +127,7 @@ return(
         <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' pb='3dvh' px='1dvw'>
             <Heading bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' pt='4dvh' textAlign='center' fontSize='5dvh' as='h1'>Create a Post</Heading>
             <Text pb='4dvh' >This is where you start to the top</Text>
-            <Card width='80%' p='5dvh 6dvw' borderRadius='1.5dvw'>
+            <Card width='80%' p='5dvh 6dvw' borderRadius='1.5dvw' boxShadow='2xl'>
                 <form onSubmit={handleClick} >
                     <Steps colorScheme="pink" activeStep={activeStep}>
                         <Step label='Title & Description'>

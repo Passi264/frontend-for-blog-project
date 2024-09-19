@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getImage } from "../src/api"
 import { Box, Center, Flex, Grid, GridItem, Heading, Image, Tag, Text } from "@chakra-ui/react"
+import parse from 'html-react-parser'
 export function ReadBlog(){
 
-    const [post,setPost]= useState([])
+    const [post,setPost]= useState()
     const [challenge, setChallenge] = useState()
     const dateCreated = new Date(post?.dateCreated)
 
@@ -44,7 +45,6 @@ export function ReadBlog(){
         }
     },[post])
         
-    const date= new Date(post.dateCreated)
        
     return(
         <Box py='6dvh' px='5dvw'>
@@ -53,19 +53,24 @@ export function ReadBlog(){
                     <Center>
                         <Flex gap='1dvw'>
                             <Tag fontSize='1dvw'  colorScheme="blue" borderRadius='1dvw' p='.5dvh .8dvw' textTransform='capitalize' ><i className="fa-solid fa-hashtag"></i> {`  ${challenge}`}</Tag>
-                            <Tag fontSize='1dvw' colorScheme="pink" borderRadius='1dvw' p='.5dvh .8dvw' >{dateCreated?.toDateString()}</Tag>
+                            <Tag fontSize='1dvw' colorScheme="pink" borderRadius='1dvw' p='.5dvh .8dvw' >{ dateCreated ? dateCreated?.toDateString() : '' }</Tag>
                         </Flex>
                     </Center>
                 </GridItem>
                 <GridItem colSpan='6'> 
                     <Box px='8dvw' py='2dvh'>
-                        <Heading bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' textAlign='center' fontWeight='400' fontSize='5dvw'>{post.title}</Heading>
+                        <Heading bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' textAlign='center' fontWeight='400' fontSize='5dvw'>{post?.title}</Heading>
                         <Text py='2dvh' px='4dvw' textAlign='center' >{post?.description}</Text>
                     </Box>
                 </GridItem>
                 <GridItem colSpan='6'>
                     <Box px='8dvw'>
                         <Image  width='100%' height='35dvh' borderRadius='1dvw' objectFit='cover' src={post?.image?.data} />
+                    </Box>
+                </GridItem>
+                <GridItem colSpan='6'>
+                    <Box py='2dvh' px='8dvw'>
+                         {parse(post ? post.content : '')}
                     </Box>
                 </GridItem>
             </Grid>

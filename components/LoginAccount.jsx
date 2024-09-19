@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { loginUser } from "../src/api";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, CardBody, CardFooter, Center, FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
+import DataContext from "../src/dataContext";
 
 
 export function LoginAccount() {
+    const { updateLog } = useContext(DataContext)
     const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
@@ -24,6 +26,7 @@ export function LoginAccount() {
             if (feed) {
                 console.log("Login successful, storing user and navigating to /Home");
                 sessionStorage.setItem("User", feed);  // Store user data in session storage
+                updateLog()
                 navigate("/Home");  // Navigate to Home after successful login
             } else {
                 console.log("Login failed: Incorrect credentials or issue with login");

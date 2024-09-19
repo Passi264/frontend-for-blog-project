@@ -1,43 +1,35 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useContext} from "react"
 import { getPosts } from "../src/api"
 import * as jwt_decode from "jwt-decode";
 import { BlogCard } from "../components/BlogCard";
-import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge } from "@chakra-ui/react";
+import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge, Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
 import { format } from 'date-fns'
+import DataContext from "../src/DataContext";
 
 export function Profile(){
-    const [num,setPost] = useState([])
-    const [user,setUser] = useState({})
+
+    const {posts,user} = useContext(DataContext)
 
     const [joinDate, setDate] = useState()
 
 
-
     useEffect(()=>{
-        const token = sessionStorage.getItem("User")
-        const decodeUser = jwt_decode.jwtDecode(token)
-        const action = async function loadPosts(decodeUser){
-            const allPosts = await getPosts()
-            const filteredpost= allPosts?.filter((post)=>post.author == decodeUser._id)
-            setPost(filteredpost)
-            setUser(decodeUser)
-            console.log(user)
-            const readableDate = new Date(decodeUser?.joinDate);
+        if(user){
+        const readableDate = new Date(user?.joinDate);
             if (!isNaN(readableDate.getTime())) {
                 setDate(format(readableDate, 'd MMM yyyy'));
             } else {
                 console.warn('Invalid join date');
-            }
+            }}
+    }, [user])
+    
 
-        }
-        action(decodeUser)
-    }, [])
     return(
         <Grid templateColumns='repeat(6, 1fr)' gap='1dvw' >
             <GridItem colSpan='2' p='1.5dvw' >
-                <VStack align='center' py='3dvh' px='2dvw' >
+                <VStack align='center' py='1dvh' px='2dvw' >
                         <Flex align='center' >
-                            <Avatar size='xl' name={user.name} src={user?.image} />
+                            <Avatar size='xl' name={user?.name} src={user?.image} />
                         </Flex>
                         <Box>
                             <Flex py='.5dvh' align='center' justify='center'>
@@ -66,14 +58,32 @@ export function Profile(){
                         </Box>
                         <Divider />
                 </VStack>
+                <VStack bg='gray.100' borderRadius='1.5dvw' align='left'  py='1dvh' px='2dvw' >
+                        <Heading textAlign='left' fontWeight='600' fontSize='1.4dvw'>Notifications</Heading>
+
+                </VStack>
             </GridItem>
             <GridItem colSpan='4' p='1.5dvw' >
-                <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' >
-                    {num.map( (e, index) => {
-                        return(
-                            <BlogCard post={e} index={index} />
-                    )})}
-                </SimpleGrid>
+                <Tabs  variant='soft-rounded' colorScheme='green' >
+                    <TabList>
+                        <Tab>Your Posts</Tab>
+                        <Tab>Liked Posts</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel p='0' py='2dvh' >
+                            <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'  >
+                                {posts?.filter((post)=>post.author == user._id)?.map( (e, index) => {
+                                    return(
+                                        <BlogCard post={e} key={index} />
+                                )})}
+                            </SimpleGrid>
+                        </TabPanel>
+                        <TabPanel p='0' py='2dvh' >
+                            <>
+                            </>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </GridItem>
         </Grid>
     )

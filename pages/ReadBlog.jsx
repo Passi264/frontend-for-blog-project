@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getImage } from "../src/api"
 export function ReadBlog(){
+
     const [post,setPost]= useState([])
     let params = useParams()
     let id=params.id
@@ -23,13 +24,13 @@ export function ReadBlog(){
        
     return(
         <>
-        <button onClick={()=>navigate(-1)}> Go back </button>
+        
+        {/* <button onClick={()=>navigate(-1)}> Go back </button>
         <h1>{post.title}</h1>
         <h2>{post.description}</h2>
         <img src={post.image?.data}></img>
         <h3>{date.toString().slice(4,16)}</h3>
-        <p>{post.content}</p>
-
+        <p>{post.content}</p> */}
         </>
     )
 }

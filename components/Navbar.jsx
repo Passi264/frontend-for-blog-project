@@ -2,11 +2,16 @@ import {Link} from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import * as jwt_decode from "jwt-decode";
 import { Avatar, Box, Button, ButtonGroup, Divider, Flex, Heading, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import DataContext from "../src/dataContext";
+
 export function Navbar(){
   const navigate= useNavigate()
+  const {updateLog} = useContext(DataContext)
+
   function handleLogout(){
     sessionStorage.removeItem("User")
+    updateLog()
     navigate("./")
   }
 

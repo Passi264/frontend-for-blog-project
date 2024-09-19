@@ -1,46 +1,17 @@
-import { getChallenges, getPost, getPosts } from "../src/api"
-import {useState,useEffect, useRef} from "react"
+import {useContext} from "react"
 import { BlogCard } from "../components/BlogCard"
-import { Heading, Box, Text, VStack, Input, Button, Flex, Grid, Card, CardHeader, CardBody, CardFooter, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar, GridItem, SimpleGrid } from "@chakra-ui/react"
+import { Heading, Box, Text, VStack, Input, Button, Flex, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar, GridItem, SimpleGrid } from "@chakra-ui/react"
 import { Typewriter } from 'react-simple-typewriter'
-import BrandSlider from "../components/Slider"
-import Loader from "../components/Loader"
+import DataContext from "../src/DataContext"
 
 export function Home(){
-    const [post,setPost] = useState()
-    const [blogs, setBlogs] = useState()
+
+    const {posts, challenges} = useContext(DataContext)
+
     const colorSchemes = [
         'pink', 'blue', 'green', 'teal', 'red', 
         'orange', 'yellow', 'purple', 'cyan', 'gray'
     ];
-
-    useEffect(()=>{
-        async function LoadAllPosts(){
-            const data = await getChallenges()
-            if(data === null){
-                return null
-            }
-            else{
-                data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-                const limitedData = data.slice(0,12)
-                setPost( () => limitedData)
-            }
-            
-
-            const blogData = await getPosts()
-            if(blogData === null){
-                return null
-            }
-            else{
-                blogData.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-                const limitBlog = blogData.slice(0,3)
-                setBlogs(() => limitBlog)
-            }
-        }
-        LoadAllPosts()
-    }
-    ,[])
-
 
 
 return(
@@ -102,7 +73,7 @@ return(
                 Trending Challenges
             </Heading>
             <Flex py='3dvh' gap='1dvw' flexWrap='wrap' >
-                    {post ? post.map((post, index)=>{  
+                    {challenges ? challenges?.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime()).slice(0,12).map((post, index)=>{  
                         const colorScheme = colorSchemes[index % colorSchemes.length]
                     return(
                         <Badge key={index} colorScheme={colorScheme} p='1dvh 1dvw' borderRadius='1.5dvw' fontSize='1dvw' fontWeight='500' ><i className="fa-solid fa-hashtag"></i> {post.title}</Badge>
@@ -121,23 +92,20 @@ return(
             <Heading>
                 Most Recents
             </Heading>
-                { blogs ? 
-                <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' >
-                    {blogs.map( (e, index) => {
+                { posts ? 
+                <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(27dvw, 1fr))' >
+                    {posts?.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime()).slice(0,3).map( (e, index) => {
                     return(
-                        <BlogCard post={e} index={index} />
+                        <BlogCard post={e} key={index} />
                 )})}
                 </SimpleGrid>
-                 : <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'>
-                <Skeleton borderRadius='1.5dvw' />
-                <Skeleton borderRadius='1.5dvw' />
-                <Skeleton  borderRadius='1.5dvw' />
+                 : <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(350px, 1fr))' templateRows='none' overflow='scroll'>
+                <Skeleton key='1' borderRadius='1.5dvw' />
+                <Skeleton key='2' borderRadius='1.5dvw' />
+                <Skeleton key='3' borderRadius='1.5dvw' />
                 </SimpleGrid> }
 
         </VStack>
     </Box>
-        // <div className="posts">
-        // </div>
-        
  )
 }

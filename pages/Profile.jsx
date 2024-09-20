@@ -6,6 +6,7 @@ import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Te
 import { format } from 'date-fns'
 import DataContext from "../src/dataContext";
 import Heart from "../components/uti/Heart";
+import Notifications from "../components/uti/Notifications";
 
 export function Profile(){
 
@@ -59,10 +60,7 @@ export function Profile(){
                         </Box>
                         <Divider />
                 </VStack>
-                <VStack bg='gray.100' borderRadius='1.5dvw' align='left'  py='1dvh' px='2dvw' >
-                        <Heading textAlign='left' fontWeight='600' fontSize='1.4dvw'>Notifications</Heading>
-
-                </VStack>
+                <Notifications />
             </GridItem>
             <GridItem colSpan='4' p='1.5dvw' >
                 <Tabs isLazy variant='soft-rounded' colorScheme='green' >

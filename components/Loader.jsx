@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
   content: '';
   width: 48px;
   height: 5px;
-  background: #f0808050;
+  background: #FF008050;
   position: absolute;
   top: 60px;
   left: 0;
@@ -33,7 +33,7 @@ const StyledWrapper = styled.div`
   content: '';
   width: 100%;
   height: 100%;
-  background: #f08080;
+  background: #FF0080;
   position: absolute;
   top: 0;
   left: 0;

@@ -53,6 +53,7 @@ export const DataProvider = ({ children }) => {
                         }
                         else{
                             setUserLikes(()=> likedPost )
+                            console.log(userLikes)
                         }
                     }
                     fetching(decoded)

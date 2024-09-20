@@ -7,12 +7,12 @@ import LikeInput from "./uti/LikeInput"
 
 export function BlogCard({post}){
 
-  const {user, userLikes, runFliker} = useContext(DataContext)
+  const {user, runFliker} = useContext(DataContext)
 
   const toast = useToast()
 
     const [likes, setLikes] = useState()
-    const [like, setLike] = useState(false)
+    const [like, setLike] = useState()
     const [img, setImg] = useState()
     const navigate = useNavigate()
 
@@ -36,6 +36,7 @@ export function BlogCard({post}){
           isClosable: true
         })
       ); // 
+      
       const updatedLikeStatus = !like;
 
       setLike(updatedLikeStatus);
@@ -56,9 +57,10 @@ export function BlogCard({post}){
       runFliker()
     };
   
-    useEffect(() => {
-      setLike(() => userLikes?.some(e => e?._id === post?._id));
-    }, [])
+    // useEffect(() => {
+    //   setLike(() => userLikes?.some(e => e?._id === post?._id))
+    //   console.log(userLikes?.some(e => e?._id === post?._id));
+    // }, [])
 
     useEffect(() => {
       const fetchLikesAndImage = async () => {
@@ -72,16 +74,16 @@ export function BlogCard({post}){
       fetchLikesAndImage();
     }, [post, user]); // Run this effect when post or user changes
 
-    // useEffect(() => {
-    //   const fetchLikes = async () => {
+    useEffect(() => {
+      const fetchLikes = async () => {
   
-    //     const userLikes = await getUserLikes(user._id);
-    //     setLike(userLikes?.some(e => e._id === post._id));
+        const userLikes = await getUserLikes(user._id);
+        setLike(userLikes?.some(e => e._id === post._id));
 
-    //   };
+      };
       
-    //   fetchLikes();
-    // },[like])
+      fetchLikes();
+    },[])
 
 
     return(
@@ -100,8 +102,10 @@ export function BlogCard({post}){
               <Button onClick={() => navigate(`/ReadBlog/${post._id}`)} >Read More</Button>
               <Flex gap='.5dvw' align='center'>
                   <Tag onClick={likingPost} as={Button} p='1dvw' display='flex' alignItems='center' gap='.5dvw' >
-                    <LikeInput like={like} />
-                    <Text fontSize='1.1dvw' fontWeight='400'>{likes}</Text>
+                    {
+                      like == undefined ? "Loading..." :<> <LikeInput like={like} />
+                      <Text fontSize='1.1dvw' fontWeight='400'>{likes}</Text> </>
+                    }
                   </Tag>
                   <Tag as={Button} p='1dvw' ><i className="fa-regular fa-comment"></i></Tag>
               </Flex>

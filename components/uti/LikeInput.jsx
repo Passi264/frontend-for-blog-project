@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const LikeInput = ({like}) => {
+const LikeInput = ({like, func}) => {
+
   return (
     <StyledWrapper>
       <div className="heart-container" title="Like">
-        <input checked={like} type="checkbox" className="checkbox" id="Give-It-An-Id" />
+        <input checked={like} defaultValue='' type="checkbox" className="checkbox" id="Give-It-An-Id" />
         <div className="svg-container">
           <svg
             viewBox="0 0 24 24"

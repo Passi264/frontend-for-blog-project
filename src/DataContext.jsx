@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as jwt_decode from "jwt-decode";
-import { getChallenges, getPost, getPosts } from "./api";
+import { getChallenges, getPost, getPosts, getUserLikes } from "./api";
 
 
 const DataContext = createContext()
@@ -12,6 +12,7 @@ export const DataProvider = ({ children }) => {
     const [posts, setPosts] = useState()
     const [user, setUser] = useState()
     const [challenges, setChallenges] = useState()
+    const [userLikes, setUserLikes] = useState()
 
     useEffect( () => {
         console.log('Context API rendered')
@@ -44,6 +45,15 @@ export const DataProvider = ({ children }) => {
                         else{
                             setChallenges(()=> challenge)
                         }
+
+                        //fetching user's likes
+                        const likedPost = await getUserLikes(decoded._id)
+                        if(likedPost  === null ){
+                            return null
+                        }
+                        else{
+                            setUserLikes(()=> likedPost )
+                        }
                     }
                     fetching(decoded)
                 }
@@ -54,11 +64,13 @@ export const DataProvider = ({ children }) => {
             }
         }, [login, fliker])
 
+        
+
     const updateLog = () => setLogin(!login)
     const runFliker = () => setFliker(!fliker)
 
     return(
-        <DataContext.Provider value={{posts, challenges, user, updateLog, runFliker }} >
+        <DataContext.Provider value={{posts, challenges, user, updateLog, runFliker, fliker, userLikes }} >
             {children}
         </DataContext.Provider>
     )

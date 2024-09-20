@@ -1,20 +1,31 @@
 import { getChallenges, getPost } from "../src/api"
-import {useEffect, useState} from "react"
-import { useNavigate } from "react-router-dom"
+import {useContext, useEffect, useState} from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
-import { getImage } from "../src/api"
-import { Box, Center, Flex, Grid, GridItem, Heading, Image, Tag, Text } from "@chakra-ui/react"
+import { Box, Center, Divider, Flex, Grid, GridItem, Heading, Image, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import parse from 'html-react-parser'
+import Loader from "../components/Loader"
+import DataContext from "../src/dataContext"
+import { BlogCard } from "../components/BlogCard"
 export function ReadBlog(){
+
+    const {posts, fliker} = useContext(DataContext)
 
     const [post,setPost]= useState()
     const [challenge, setChallenge] = useState()
     const dateCreated = new Date(post?.dateCreated)
 
+    const challengePost = posts?.filter(e => e?.challengeId === post?.challengeId && e?._id !== post?._id).sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime()).slice(0,3)
+
     let params = useParams()
     let id = params.id
 
     const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+    },[location])
 
 
     useEffect(()=>{
@@ -25,7 +36,7 @@ export function ReadBlog(){
         }
 
         postcoming()
-    },[] )
+    },[fliker] )
 
     useEffect(()=>{
 
@@ -44,15 +55,16 @@ export function ReadBlog(){
             getChall()
         }
     },[post])
-        
-       
+     
     return(
+
+        post ? 
         <Box py='6dvh' px='5dvw'>
             <Grid templateColumns='repeat(6, 1f)'  >
                 <GridItem colSpan='6'>
                     <Center>
                         <Flex gap='1dvw'>
-                            <Tag fontSize='1dvw'  colorScheme="blue" borderRadius='1dvw' p='.5dvh .8dvw' textTransform='capitalize' ><i className="fa-solid fa-hashtag"></i> {`  ${challenge}`}</Tag>
+                            {challenge ? <Tag fontSize='1dvw'  colorScheme="blue" borderRadius='1dvw' p='.5dvh .8dvw' textTransform='capitalize' ><i className="fa-solid fa-hashtag"></i> {`  ${challenge}`}</Tag> : null}
                             <Tag fontSize='1dvw' colorScheme="pink" borderRadius='1dvw' p='.5dvh .8dvw' >{ dateCreated ? dateCreated?.toDateString() : '' }</Tag>
                         </Flex>
                     </Center>
@@ -69,11 +81,28 @@ export function ReadBlog(){
                     </Box>
                 </GridItem>
                 <GridItem colSpan='6'>
-                    <Box py='2dvh' px='8dvw'>
-                         {parse(post ? post.content : '')}
+                    <Box py='4dvh' px='8dvw'>
+                        {parse(post ? post.content : '')}
                     </Box>
+                    <Divider />
+                </GridItem>
+                <GridItem py='5dvh' colSpan='6'>
+                    {challengePost ? <Heading as='h4' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text' fontSize='2.5dvw' fontWeight='500'>Read Similar Posts...</Heading> : null }
+                    { challengePost ? 
+                    <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(25dvw, 1fr))' >
+                        {challengePost?.map( (e, index) => {
+                        return(
+                            <BlogCard post={e} key={index} />
+                    )})} 
+                    </SimpleGrid> : null}
                 </GridItem>
             </Grid>
+        </Box> : 
+        <Box py='6dvh' px='5dvw'>
+            <Center>
+                <Loader />
+            </Center>
         </Box>
+
     )
 }

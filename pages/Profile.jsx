@@ -2,13 +2,14 @@ import {useState, useEffect, useContext} from "react"
 import { getPosts } from "../src/api"
 import * as jwt_decode from "jwt-decode";
 import { BlogCard } from "../components/BlogCard";
-import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge, Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge, Tabs, TabList, Tab, TabPanels, TabPanel, Center } from "@chakra-ui/react";
 import { format } from 'date-fns'
-import DataContext from "../src/DataContext";
+import DataContext from "../src/dataContext";
+import Heart from "../components/uti/Heart";
 
 export function Profile(){
 
-    const {posts,user} = useContext(DataContext)
+    const {posts, user, userLikes} = useContext(DataContext)
 
     const [joinDate, setDate] = useState()
 
@@ -64,7 +65,7 @@ export function Profile(){
                 </VStack>
             </GridItem>
             <GridItem colSpan='4' p='1.5dvw' >
-                <Tabs  variant='soft-rounded' colorScheme='green' >
+                <Tabs isLazy variant='soft-rounded' colorScheme='green' >
                     <TabList>
                         <Tab>Your Posts</Tab>
                         <Tab>Liked Posts</Tab>
@@ -79,8 +80,22 @@ export function Profile(){
                             </SimpleGrid>
                         </TabPanel>
                         <TabPanel p='0' py='2dvh' >
-                            <>
-                            </>
+                            
+                            {userLikes?.length > 0 ? 
+                                (<SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(350px, 1fr))'  >
+                                    {userLikes.map((e, index) => (
+                                        <BlogCard post={e} key={index} />
+                                    ))}
+                                    </SimpleGrid>
+                                ) : (
+                                    <Box py='10dvh'>
+                                        <Center flexDirection='column'>
+                                            <Text fontSize='2dvw'>Opps!!! No Liked Posts Found...</Text> 
+                                            <Heart />
+                                        </Center>
+                                    </Box>
+                            )}
+                            
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

@@ -1,6 +1,7 @@
 :root{
     font-family: "Poppins", sans-serif;
     padding: 0 5dvw;
+    scroll-behavior: smooth;
 }
 ::-webkit-scrollbar{
     display: none;

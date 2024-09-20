@@ -165,4 +165,46 @@ export async function createChallenge(Challenge) {
     return response;
 }
 
+export const likePost = async (userId, postId) => {
+    try{
+        const date = new Date().toDateString()  
+        const response = await axios.post(`${URL}/like`, { userId, postId, date });
+        return response.data;
+    }
+    catch(err){
+        console.log('error creating like')
+        throw err
+    }
+}
 
+export const getLikesForPost = async (postId) => {
+    try {
+        const response = await axios.get(`${URL}/likes/${postId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching likes:", error);
+        throw error;
+    }
+};
+
+export const unlikePost = async (userId, postId) => {
+    try {
+        const response = await axios.post(`${URL}/unlike`, { userId, postId });
+        return response.data;
+
+    } catch (error) {
+        console.error("Error unliking post:", error);
+        throw error;
+    }
+};
+
+
+export const getUserLikes = async (userId) => {
+    try {
+        const response = await axios.get(`${URL}/userLikes/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching liked posts:", error);
+        throw error;
+    }
+}

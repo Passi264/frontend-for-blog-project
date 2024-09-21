@@ -5,13 +5,13 @@ import styled from "styled-components";
 const Bar = ({user}) => {
   return (
     <StyledWrapper >
-        <Box className="blur" width='100%' px='1dvw'>
-            <Flex width='100%' align='center' py='1dvh' >
+        <Box className="blur" width='100%' >
+            <Flex width='100%' align='center' py='.5dvh' gap='.5dvw' >
                 <Box width='4dvw' >
-                    <Avatar boxShadow='xl' name="" size='md' />
+                    <Avatar boxShadow='xl' name="DK" size='md' />
                 </Box>
-                <Box pl='1dvw'>
-                    <Heading textAlign='left' fontSize='1.2dvw'>You got a like!</Heading>
+                <Box >
+                    <Heading textAlign='left' fontWeight='500' fontSize='1.2dvw'>You got a like!</Heading>
                     <Text fontSize='1dvw'>{!user ? 'This is where you will see the notification' : `Your Post has been Liked by ${user?.name} `}</Text>
                 </Box>
             </Flex>

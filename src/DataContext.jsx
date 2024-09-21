@@ -24,6 +24,7 @@ export const DataProvider = ({ children }) => {
                 try{
                     async function fetching(decoded){
 
+                        console.log('token was found')
                         //decoded token has the user object
                         setUser(()=> decoded)
                         

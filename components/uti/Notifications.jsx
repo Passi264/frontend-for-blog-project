@@ -4,9 +4,11 @@ import Bar from './NotificationBar'
 
 const Notifications = () => {
   return (
-    <VStack py='2dvh' align='left' px='2dvw'>
+    <VStack py='2dvh' align='left' px='1dvw'>
         <Heading>Notifications</Heading>
-        <VStack>
+        <VStack align='left' py='1.2dvh'>
+            <Bar />
+            <Bar />
             <Bar />
         </VStack>
     </VStack>

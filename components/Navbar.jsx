@@ -15,11 +15,11 @@ export function Navbar(){
     navigate("./")
   }
 
-  const [user,setUser] = useState({})
+  const [user,setUser] = useState()
 
   useEffect(()=>{
-    const token = sessionStorage.getItem("User")
-    const decodeUser = jwt_decode.jwtDecode(token)
+    const token = sessionStorage?.getItem("User")
+    const decodeUser = jwt_decode?.jwtDecode(token)
     setUser(decodeUser)
   }, [])
 
@@ -40,9 +40,9 @@ export function Navbar(){
         <Button py='2.5dvh' as={Link} to='/CreateBlog' borderRadius='1.5dvw' leftIcon={<i className="fa-solid fa-pen"></i>} >
             Start Writing
         </Button>
-        <Menu>
+        {user ?  <Menu>
           <MenuButton>
-            <Avatar name={user.name} />
+            <Avatar name={user?.name} />
           </MenuButton>
           <MenuList py='1dvh'>
             <MenuItem as={Link} to='/Profile'>
@@ -59,7 +59,7 @@ export function Navbar(){
               Log out
             </MenuItem>
           </MenuList>
-        </Menu>
+        </Menu> : <Button as={Link} to='/' >Log in</Button>}
       </Flex>
     </Flex>
         // <div className="navbar">

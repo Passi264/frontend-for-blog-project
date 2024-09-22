@@ -50,8 +50,8 @@ function App() {
       <Router>
         <Fliker />
         <Routes>
-          <Route path="/" element={<Landing/>} />
-          <Route element={<Layout/>}>
+            <Route element={<Layout/>}>
+            <Route path="/" element={<Landing/>} />
             <Route path="/About" element={<About/>} />
             <Route path="/Contact" element={<Contact/>} />
             <Route path="/CreateBlog" element={<CreateBlog/>} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUser } from "../src/api";
+import { createUser } from "../../../src/api";
 import { Button, Card, CardBody, CardFooter, Center, FormControl, FormLabel, Input, Box, Grid, SimpleGrid } from "@chakra-ui/react";
 
 export function CreateAccount(){
@@ -62,17 +62,5 @@ export function CreateAccount(){
                 </CardBody>
             </Card>
         </form>
-
-        // <>
-        // <form onSubmit={handleSubmit}>
-        //     <label>Enter your name</label>
-        //     <input type="text" onChange={handleClick} placeholder="enter ur name" required name="name"></input>
-        //     <label>Enter your email</label>
-        //     <input type="text" onChange={handleClick} placeholder="enter ur email" required name="email"></input>
-        //     <label>Enter your password</label>
-        //     <input type="password" onChange={handleClick} placeholder="enter ur password" required name="password"></input>
-        //     <button type="submit">Click here for creating ur account</button>
-        // </form>
-        // </>
     )
 }

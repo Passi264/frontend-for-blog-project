@@ -72,7 +72,7 @@ export const DataProvider = ({ children }) => {
     const runFliker = () => setFliker(!fliker)
 
     return(
-        <DataContext.Provider value={{posts, challenges, user, updateLog, runFliker, fliker, userLikes }} >
+        <DataContext.Provider value={{posts, challenges, user, login , updateLog, runFliker, fliker, userLikes }} >
             {children}
         </DataContext.Provider>
     )

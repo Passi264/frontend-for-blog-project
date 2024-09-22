@@ -7,7 +7,8 @@ import DataContext from "../src/dataContext";
 
 export function Navbar(){
   const navigate= useNavigate()
-  const {updateLog} = useContext(DataContext)
+
+  const {updateLog, login} = useContext(DataContext)
 
   function handleLogout(){
     sessionStorage.removeItem("User")
@@ -19,47 +20,53 @@ export function Navbar(){
 
   useEffect(()=>{
     const token = sessionStorage?.getItem("User")
-    const decodeUser = jwt_decode?.jwtDecode(token)
-    setUser(decodeUser)
-  }, [])
+
+    if(token){
+      const decodeUser = jwt_decode?.jwtDecode(token)
+      setUser(decodeUser)
+    }
+
+  }, [login])
 
   return(
-    <Flex p='2.5dvh 1dvw' justify='space-between' align='center'>
-      <Flex gap='2dvw' align='center'>
+    <Flex p='2rem 1rem' justify='space-between' align='center'>
+      <Flex gap='2rem' align='center'>
         <Link to='/Home'>
-          <Heading fontWeight='400' fontSize='1.5dvw' >CopyWriter</Heading>
+          <Heading fontWeight='400' fontSize='1rem' >CopyWriter</Heading>
         </Link>
         <InputGroup>
           <InputLeftElement>
             <i className="fa-solid fa-magnifying-glass"></i>
           </InputLeftElement>
-          <Input borderRadius='1.5dvw' htmlSize='40' variant='filled' type="text" placeholder="Search for challenges here..." />
+          <Input width='15rem' borderRadius='1.5dvw' htmlSize='40' variant='filled' type="text" placeholder="Search for challenges here..." />
         </InputGroup>
       </Flex>
-      <Flex gap='1dvw' align='center'>
+      <Flex justify='space-between' align='center'>
         <Button py='2.5dvh' as={Link} to='/CreateBlog' borderRadius='1.5dvw' leftIcon={<i className="fa-solid fa-pen"></i>} >
             Start Writing
         </Button>
-        {user ?  <Menu>
-          <MenuButton>
-            <Avatar name={user?.name} />
-          </MenuButton>
-          <MenuList py='1dvh'>
-            <MenuItem as={Link} to='/Profile'>
-              Profile
-            </MenuItem>
-            <MenuItem as={Link} to='/Contact'>
-              Contact us
-            </MenuItem>
-            <MenuItem as={Link} to='/About'>
-              About us
-            </MenuItem>
-            <Divider />
-            <MenuItem as={Button} onClick={handleLogout} rightIcon={<i className="fa-solid fa-arrow-right"></i>} px='2dvw' >
-              Log out
-            </MenuItem>
-          </MenuList>
-        </Menu> : <Button as={Link} to='/' >Log in</Button>}
+        {user ? <Flex gap='.5dvw'>
+            <Menu>
+              <MenuButton>
+                <Avatar name={user?.name} />
+              </MenuButton>
+              <MenuList py='1dvh'>
+                <MenuItem as={Link} to='/Profile'>
+                  Profile
+                </MenuItem>
+                <MenuItem as={Link} to='/Contact'>
+                  Contact us
+                </MenuItem>
+                <MenuItem as={Link} to='/About'>
+                  About us
+                </MenuItem>
+                <Divider />
+                <MenuItem as={Button} onClick={handleLogout} rightIcon={<i className="fa-solid fa-arrow-right"></i>} px='2dvw' >
+                  Log out
+                </MenuItem>
+              </MenuList>
+          </Menu>
+        </Flex>  : <Button as={Link} to='/' >Log in</Button>}
       </Flex>
     </Flex>
         // <div className="navbar">

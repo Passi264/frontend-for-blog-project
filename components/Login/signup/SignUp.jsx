@@ -70,7 +70,7 @@ const SignUp = () => {
         <Box py='2rem' px='1rem'>
 
             <Box py='1rem'>
-                <Heading fontSize='2rem' fontWeight='600'>Create an Account</Heading>
+                <Heading fontSize='2rem' bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text'  fontWeight='600'>Create an Account</Heading>
                 <Text fontSize='1rem' fontWeight='300' >Just one step away from your solid writing career.</Text>
             </Box>
 
@@ -123,7 +123,7 @@ const SignUp = () => {
                 }
 
                 <Text ref={errRef} className={errMsg ? 'errmsg' : 'not-visible'} aria-live='assertive'>{errMsg}</Text>
-                <Button type='submit' isDisabled={!validEmail || !validMatch || !validName || !validPwd}>Sign Up</Button>
+                <Button colorScheme="pink" width='100%' type='submit' isDisabled={!validEmail || !validMatch || !validName || !validPwd}>Sign Up</Button>
                 </VStack>
             </form>
             

@@ -5,13 +5,16 @@ import './index.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from './theme.js'
 import { DataProvider } from './dataContext.jsx'
+import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ChakraProvider theme={theme}>
-      <DataProvider>
-        <App />
-      </DataProvider>
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider theme={theme}>
+        <DataProvider>
+          <App />
+        </DataProvider>
+      </ChakraProvider>
+    </BrowserRouter>
   </StrictMode>
 )

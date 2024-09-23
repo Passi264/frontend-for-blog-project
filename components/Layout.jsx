@@ -1,15 +1,9 @@
 import { Navbar } from "./Navbar"
-import { Outlet, useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { Outlet} from "react-router-dom"
 import Footer from "./Footer"
+
 export function Layout(){
-const navigate= useNavigate()
-let obj = sessionStorage.getItem("User")
-useEffect(()=>{
-        if(!obj){
-            navigate("./")
-        }
-    },[obj])
+
 
 return(
     <>

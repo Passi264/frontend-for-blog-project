@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { loginUser } from "../../../src/api";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, Center, FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
+import { Button, VStack, FormControl, FormLabel, Input, Box, Flex, Heading, Text } from "@chakra-ui/react";
 import DataContext from "../../../src/dataContext";
 
 
@@ -30,7 +30,7 @@ export function LoginAccount() {
                 console.log("Login successful, storing user and navigating to /Home");
                 sessionStorage.setItem("User", feed);  // Store user data in session storage
                 updateLog()
-                navigate("/Home");  // Navigate to Home after successful login
+                navigate("/");  // Navigate to Home after successful login
             } else {
                 console.log("Login failed: Incorrect credentials or issue with login");
                 alert("Login failed. Please check your credentials.");
@@ -48,35 +48,51 @@ export function LoginAccount() {
     }
 
     return (
-        <>
-        <form onSubmit={handleSubmit} >
-            <Card width='50dvw' boxShadow='none' borderRadius='1dvw' px='2dvw' size='lg'>
-                <CardBody py='2dvh'>
-                    <Box py='1dvh'>
-                        <FormControl>
-                            <FormLabel>
-                                Username or Email
-                            </FormLabel>
-                            <Input ref={userRef} type="text" required onChange={handleClick} name="email" placeholder="blackdino@snail.com" />
-                        </FormControl>
+        <section>
+                <Box py='2rem' px='1rem'>
+                    <Box py='1rem'>
+                        <Heading bgGradient='linear(to-r, #7928CA, #FF0080)' bgClip='text'  fontSize='2rem' fontWeight='600'>Log in</Heading>
+                        <Text fontSize='1rem' fontWeight='300' >Welcome back, looks like a begin to something great.</Text>
                     </Box>
-                    <Box py='1dvh'>
-                        <FormControl>
-                            <FormLabel>
-                                Password
-                            </FormLabel>
-                            <Input type="password" required onChange={handleClick} name="password" placeholder="ilovethatsnail" />
-                        </FormControl>
-                    </Box>
-                    <Box py='2dvh'>
-                        <Center>
-                            <Button boxShadow='md' px='5dvh' type="submit">Log in</Button>
-                        </Center>
-                    </Box>
-                </CardBody>
-            </Card>
-        </form>
-        </>
+                    <form onSubmit={handleSubmit}>
+                        <VStack gap='2rem' py='1rem'>
+                            <FormControl>
+                                 <FormLabel>
+                                    Email
+                                </FormLabel>
+                                 <Input ref={userRef}  variant={user.email ? 'filled' : 'flushed'} type="text" required onChange={handleClick} name="email"  />
+                             </FormControl>
+
+                             <FormControl>
+                                <FormLabel>
+                                    Password
+                                </FormLabel>
+                                <Input type="password"  variant={user.password ? 'filled' : 'flushed'} required onChange={handleClick} name="password"  />
+                            </FormControl>
+                            <Button colorScheme="pink" width='100%' type='submit' isDisabled={false}>Sign in</Button>
+                        </VStack>
+                    </form>
+                </Box>
+        </section>
+        // <>
+        // <form onSubmit={handleSubmit} >
+        //     <Card width='50dvw' boxShadow='none' borderRadius='1dvw' px='2dvw' size='lg'>
+        //         <CardBody py='2dvh'>
+        //             <Box py='1dvh'>
+        //                 
+        //             </Box>
+        //             <Box py='1dvh'>
+
+        //             </Box>
+        //             <Box py='2dvh'>
+        //                 <Center>
+        //                     <Button boxShadow='md' px='5dvh' type="submit">Log in</Button>
+        //                 </Center>
+        //             </Box>
+        //         </CardBody>
+        //     </Card>
+        // </form>
+        // </>
     );
 }
 

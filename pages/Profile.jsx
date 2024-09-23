@@ -1,19 +1,26 @@
 import {useState, useEffect, useContext} from "react"
-import { getPosts } from "../src/api"
-import * as jwt_decode from "jwt-decode";
 import { BlogCard } from "../components/BlogCard";
 import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge, Tabs, TabList, Tab, TabPanels, TabPanel, Center } from "@chakra-ui/react";
 import { format } from 'date-fns'
 import DataContext from "../src/dataContext";
 import Heart from "../components/uti/Heart";
 import Notifications from "../components/uti/Notifications";
+import { useNavigate } from "react-router-dom";
 
 export function Profile(){
 
-    const {posts, user, userLikes} = useContext(DataContext)
+    const {posts, user, userLikes, login} = useContext(DataContext)
+
+    const naviagte = useNavigate()
 
     const [joinDate, setDate] = useState()
 
+    useEffect(()=>{
+        const token = sessionStorage.getItem("User")
+        if(!token){
+            naviagte('/login')
+        }
+    },[login])
 
     useEffect(()=>{
         if(user){

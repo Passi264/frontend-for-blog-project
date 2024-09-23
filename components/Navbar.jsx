@@ -13,7 +13,7 @@ export function Navbar(){
   function handleLogout(){
     sessionStorage.removeItem("User")
     updateLog()
-    navigate("./")
+    // navigate("./")
   }
 
   const [user,setUser] = useState()
@@ -25,30 +25,33 @@ export function Navbar(){
       const decodeUser = jwt_decode?.jwtDecode(token)
       setUser(decodeUser)
     }
+    else{
+      setUser(null)
+    }
 
   }, [login])
 
   return(
     <Flex p='2rem 1rem' justify='space-between' align='center'>
       <Flex gap='2rem' align='center'>
-        <Link to='/Home'>
+        <Link to='/'>
           <Heading fontWeight='400' fontSize='1rem' >CopyWriter</Heading>
         </Link>
         <InputGroup>
           <InputLeftElement>
             <i className="fa-solid fa-magnifying-glass"></i>
           </InputLeftElement>
-          <Input width='15rem' borderRadius='1.5dvw' htmlSize='40' variant='filled' type="text" placeholder="Search for challenges here..." />
+          <Input max-width='30rem' minW='' htmlSize='40' variant='filled' type="text" placeholder="Search for challenges here..." />
         </InputGroup>
       </Flex>
-      <Flex justify='space-between' align='center'>
-        <Button py='2.5dvh' as={Link} to='/CreateBlog' borderRadius='1.5dvw' leftIcon={<i className="fa-solid fa-pen"></i>} >
+      <Flex justify='space-between' gap='1rem' align='center'>
+        <Button as={Link} to='/CreateBlog' leftIcon={<i className="fa-solid fa-pen"></i>} >
             Start Writing
         </Button>
-        {user ? <Flex gap='.5dvw'>
+        {user ? 
             <Menu>
               <MenuButton>
-                <Avatar name={user?.name} />
+                <Avatar size='md' name={user?.name} />
               </MenuButton>
               <MenuList py='1dvh'>
                 <MenuItem as={Link} to='/Profile'>
@@ -66,7 +69,7 @@ export function Navbar(){
                 </MenuItem>
               </MenuList>
           </Menu>
-        </Flex>  : <Button as={Link} to='/' >Log in</Button>}
+        : <Button as={Link} to='/login' >Log in</Button>}
       </Flex>
     </Flex>
         // <div className="navbar">

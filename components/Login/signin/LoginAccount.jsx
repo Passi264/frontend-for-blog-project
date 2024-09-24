@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { loginUser } from "../../../src/api";
 import { useNavigate } from "react-router-dom";
 import { Button, VStack, FormControl, FormLabel, Input, Box, Flex, Heading, Text } from "@chakra-ui/react";
-import DataContext from "../../../src/dataContext";
+import DataContext from "../../../src/DataContext";
 
 
 export function LoginAccount() {

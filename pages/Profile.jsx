@@ -2,7 +2,7 @@ import {useState, useEffect, useContext} from "react"
 import { BlogCard } from "../components/BlogCard";
 import { Grid, GridItem, SimpleGrid, Box, VStack, Avatar, Flex, Tag, Heading, Text, ButtonGroup, Button, Divider, Badge, Tabs, TabList, Tab, TabPanels, TabPanel, Center } from "@chakra-ui/react";
 import { format } from 'date-fns'
-import DataContext from "../src/dataContext";
+import DataContext from "../src/DataContext";
 import Heart from "../components/uti/Heart";
 import Notifications from "../components/uti/Notifications";
 import { useNavigate } from "react-router-dom";

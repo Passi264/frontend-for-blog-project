@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import { Box, Center, Divider, Flex, Grid, GridItem, Heading, Image, SimpleGrid, Tag, Text } from "@chakra-ui/react"
 import parse from 'html-react-parser'
 import Loader from "../components/Loader"
-import DataContext from "../src/dataContext"
+import DataContext from "../src/DataContext"
 import { BlogCard } from "../components/BlogCard"
 export function ReadBlog(){
 

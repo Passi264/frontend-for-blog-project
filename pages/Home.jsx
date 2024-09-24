@@ -2,7 +2,7 @@ import {useContext} from "react"
 import { BlogCard } from "../components/BlogCard"
 import { Heading, Box, Text, VStack, Input, Button, Flex, Badge, StatGroup, Stat, StatLabel, StatNumber, StatHelpText, Progress, Skeleton, AvatarGroup, Avatar, GridItem, SimpleGrid } from "@chakra-ui/react"
 import { Typewriter } from 'react-simple-typewriter'
-import DataContext from "../src/dataContext"
+import DataContext from "../src/DataContext"
 
 export function Home(){
 

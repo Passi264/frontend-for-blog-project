@@ -10,7 +10,7 @@ import { ReadBlog } from '../pages/ReadBlog';
 import { Layout } from '../components/Layout';
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
-import DataContext from './dataContext';
+import DataContext from './DataContext';
 
 function App() {
 

@@ -2,7 +2,7 @@ import { Badge, Button, Card, CardBody, CardFooter, CardHeader, Heading, Image, 
 import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { getImage, getLikesForPost, getUserLikes, likePost, unlikePost } from "../src/api"
-import DataContext from "../src/dataContext"
+import DataContext from "../src/DataContext"
 import LikeInput from "./uti/LikeInput"
 
 export function BlogCard({post}){

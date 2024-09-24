@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import * as jwt_decode from "jwt-decode";
 import { Avatar, Box, Button, ButtonGroup, Divider, Flex, Heading, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { useContext, useEffect, useState } from "react";
-import DataContext from "../src/dataContext";
+import DataContext from "../src/DataContext";
 
 export function Navbar(){
   const navigate= useNavigate()

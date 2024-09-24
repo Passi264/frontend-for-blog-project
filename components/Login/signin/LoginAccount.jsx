@@ -58,7 +58,7 @@ export function LoginAccount() {
                         <VStack gap='2rem' py='1rem'>
                             <FormControl>
                                  <FormLabel>
-                                    Email
+                                    Email or Username
                                 </FormLabel>
                                  <Input ref={userRef}  variant={user.email ? 'filled' : 'flushed'} type="text" required onChange={handleClick} name="email"  />
                              </FormControl>
@@ -74,25 +74,6 @@ export function LoginAccount() {
                     </form>
                 </Box>
         </section>
-        // <>
-        // <form onSubmit={handleSubmit} >
-        //     <Card width='50dvw' boxShadow='none' borderRadius='1dvw' px='2dvw' size='lg'>
-        //         <CardBody py='2dvh'>
-        //             <Box py='1dvh'>
-        //                 
-        //             </Box>
-        //             <Box py='1dvh'>
-
-        //             </Box>
-        //             <Box py='2dvh'>
-        //                 <Center>
-        //                     <Button boxShadow='md' px='5dvh' type="submit">Log in</Button>
-        //                 </Center>
-        //             </Box>
-        //         </CardBody>
-        //     </Card>
-        // </form>
-        // </>
     );
 }
 

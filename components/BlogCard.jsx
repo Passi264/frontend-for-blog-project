@@ -89,7 +89,7 @@ export function BlogCard({post}){
     return(
         <Card  size='md' background="rgba(255, 255, 255, 0.2)" borderRadius="16px" boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)" backdropFilter="blur(5px)" border="1px solid rgba(255, 255, 255, 0.3)">
           <CardBody>
-            <Image borderRadius='16px' style={{ width: '100%', height: '24dvh' }} objectFit='cover' src={img}/>
+            <Image borderRadius='16px' style={{ width: '100%', height: '24dvh' }} objectFit='cover' alt="Some Image" src={img}/>
             <Flex align='center' gap='.5dvw' py='2dvh'>
               <Badge colorScheme="green" fontSize='.7dvw' borderRadius='16px' px='.5dvw' size='lg'>{differenceInDays > 0 ? `${differenceInDays} Days ago` : 'New'}</Badge>
               <Box fontWeight='300'  fontSize='.7dvw' borderRadius='16px' px='.5dvw' size='lg' >{dateCreated.toDateString()}</Box>

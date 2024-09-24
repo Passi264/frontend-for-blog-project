@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 // Removed trailing slash from the base URL
-const URL = "https://backendweb-seven.vercel.app";
+const URL = "http://localhost:3009";
 
 // Function to get all posts
 export async function getPosts() {
@@ -91,6 +91,24 @@ export async function userPosts() {
     }
 }
 
+export async function usernameAvailable(username) {
+    const response = await axios.post(`${URL}/users/username-check`, { username }); // Send as request body
+    if (response.status === 200) {
+        return response.data; // true or false
+    } else {
+        console.log("error in checking username");
+    }
+}
+
+export async function EmailAvailable(email) {
+    const response = await axios.post(`${URL}/users/email-check`, { email }); // Send as request body
+    if (response.status === 200) {
+        return response.data; // true or false
+    } else {
+        console.log("error in checking username");
+    }
+}
+
 // Function to get a specific user by ID
 export async function getUser(id) {
     const response = await axios.get(`${URL}/users/${id}`);
@@ -105,6 +123,7 @@ export async function getUser(id) {
 // Function to create a new user
 export async function createUser(user) {
     const response = await axios.post(`${URL}/users`, user);
+    console.log(response)
     return response;
 }
 
@@ -150,13 +169,13 @@ export async function createImage(file) {
 
 // Function to get an image by ID
 export async function getImage(id) {
-    const token = sessionStorage.getItem('User');
-    const response = await axios.get(`${URL}/images/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-    return response;
+    // const token = sessionStorage.getItem('User');
+    // const response = await axios.get(`${URL}/images/${id}`, {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`
+    //     }
+    // });
+    return null;
 }
 
 

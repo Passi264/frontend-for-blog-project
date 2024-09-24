@@ -1,6 +1,8 @@
-import { Heading, Text, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormHelperText, SimpleGrid, VStack, Button } from '@chakra-ui/react';
+import { Heading, Text, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormHelperText, SimpleGrid, VStack, Button, Tag } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react'
 import styled from "styled-components";
+import { EmailAvailable, createUser, usernameAvailable } from '../../../src/api';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -11,16 +13,20 @@ const EML_REGEX = /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}
 
 const SignUp = () => {
 
+    const navigate = useNavigate()
+
     const userRef = useRef()
     const errRef = useRef()
 
     const [user, setUser] = useState('')
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
+    const [userAvailable, setUserAvailable] = useState(true);
 
     const [email, setEmail] = useState('')
     const [validEmail, setValidEmail] = useState(false)
     const [emailFocus, setEmailFocus] = useState(false)
+    const [emailAvailable, setEmailAvailable] = useState(true);
 
     const [pwd, setPwd] = useState('')
     const [validPwd, setValidPwd] = useState(false);
@@ -39,19 +45,16 @@ const SignUp = () => {
 
     useEffect(()=>{
         const check = USER_REGEX.test(user);
-        console.log(check, user)
         setValidName(check)
     },[user])
 
     useEffect(() => {
         const check = EML_REGEX.test(email)
-        console.log(check, email)
         setValidEmail(check)
     }, [email])
 
     useEffect(()=>{
         const check = PWD_REGEX.test(pwd);
-        console.log(check, pwd);
         setValidPwd(check)
         const match = pwd === matchPwd;
         setValidMatch(match)
@@ -61,8 +64,56 @@ const SignUp = () => {
         setErrMsg('')
     }, [pwd, user, email, matchPwd])
 
+    useEffect(()=> {
+        if(validName){
+            if(user){
+                const feed = async() => {
+                    let res = await usernameAvailable(user);
+                    if(res !== undefined){
+                        setUserAvailable(!res)
+                    }
+                }
+                feed()
+            }
+        }
+    }, [user, validName, userFocus])
+
+    useEffect(()=> {
+        if(validEmail){
+            if(email){
+                const feed = async() => {
+                    let res = await EmailAvailable(email);
+                    if(res !== undefined){
+                        setEmailAvailable(!res)
+                    }
+                }
+                feed()
+            }
+        }
+    }, [email, validEmail, emailFocus])
+
+
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        if(validEmail && validMatch && validName && validPwd && userAvailable && emailAvailable){
+            const userObj = {
+                name:"",
+                username: user,
+                email: email,
+                password: pwd
+            }
+            const feed = await createUser(userObj)
+            if(feed.data.message){
+                setErrMsg(feed?.data?.message)
+            }
+            if(feed.status == 200){
+                navigate('/profile')
+            }
+        }
+        else{
+            setErrMsg("Fields seems to be emply, please try again")
+        }
     }
 
   return (
@@ -78,22 +129,22 @@ const SignUp = () => {
                 <VStack gap='2rem' py='1rem'>
                 <FormControl >
                     <FormLabel>
-                        Username
+                        Username {validName && !userFocus && <Tag  colorScheme={ userAvailable ? 'green' : 'red'} >{userAvailable ? "Username is Available" : "Username is not available"}</Tag>}
                     </FormLabel>
                     <InputGroup>
-                        <Input isInvalid={!validName && user} variant={user ? 'filled' : 'flushed'} type='text' id='username' ref={userRef} autoComplete='off' onChange={(e)=>setUser(e.target.value)} required aria-invalid={validName ? 'false' : 'true'} aria-describedby='uidnote' onFocus={()=> setUserFocus(true)} onBlur={()=> setUserFocus(false)} />
-                        {user && <InputRightElement>{validName ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> }</InputRightElement>}
+                        <Input isInvalid={!validName && user && !userAvailable} variant={user ? 'filled' : 'flushed'} type='text' id='username' ref={userRef} autoComplete='off' onChange={(e)=>setUser(e.target.value.toLowerCase())} required aria-invalid={validName ? 'false' : 'true'} aria-describedby='uidnote' onFocus={()=> setUserFocus(true)} onBlur={()=> setUserFocus(false)} />
+                        {user && <InputRightElement>{validName && userAvailable ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> }</InputRightElement>}
                     </InputGroup>
                     <FormHelperText id='uidnote' display={user && userFocus && !validName ? "block" : "none"} ><i className="fa-solid fa-circle-info"></i>  Must begin with a letter, have no space and have 4 to 24 characters</FormHelperText>
                 </FormControl>
 
                 <FormControl >
                     <FormLabel >
-                        Email
+                        Email {validEmail && !emailFocus && <Tag  colorScheme={ emailAvailable ? 'green' : 'red'} >{emailAvailable ? "Email address is available" : "Email address already in use."}</Tag>}
                     </FormLabel>
                     <InputGroup>
-                        <Input isInvalid={!validEmail && email} variant={email ? 'filled' : 'flushed'} type='email' id='email' autoComplete='on' onChange={(e)=>setEmail(e.target.value)} required aria-invalid={validEmail ? 'false' : 'true'} aria-describedby='eidnote' onFocus={()=> setEmailFocus(true)} onBlur={()=> setEmailFocus(false)} />
-                        {email && <InputRightElement>{validEmail ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> }</InputRightElement>}
+                        <Input isInvalid={!validEmail && email && !emailAvailable} variant={email ? 'filled' : 'flushed'} type='email' id='email' autoComplete='on' onChange={(e)=>setEmail(e.target.value.toLowerCase())} required aria-invalid={validEmail ? 'false' : 'true'} aria-describedby='eidnote' onFocus={()=> setEmailFocus(true)} onBlur={()=> setEmailFocus(false)} />
+                        {email && <InputRightElement>{validEmail && emailAvailable ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> }</InputRightElement>}
                     </InputGroup>
                     <FormHelperText id='eidnote' display={email && emailFocus && !validEmail ? "block" : "none"} ><i className="fa-solid fa-circle-info"></i>  Must be a valid email</FormHelperText>
                 </FormControl>
@@ -121,9 +172,8 @@ const SignUp = () => {
                         <FormHelperText id='mpidnote' display={matchPwd && matchFocus && !validMatch ? "block" : "none"} ><i className="fa-solid fa-circle-info"></i>  Your password doesn't match.</FormHelperText>
                     </FormControl>
                 }
-
                 <Text ref={errRef} className={errMsg ? 'errmsg' : 'not-visible'} aria-live='assertive'>{errMsg}</Text>
-                <Button colorScheme="pink" width='100%' type='submit' isDisabled={!validEmail || !validMatch || !validName || !validPwd}>Sign Up</Button>
+                <Button colorScheme="pink" width='100%' type='submit' isDisabled={!validEmail || !validMatch || !validName || !validPwd || !userAvailable || !emailAvailable}>Sign Up</Button>
                 </VStack>
             </form>
             
@@ -133,6 +183,17 @@ const SignUp = () => {
 }
 
 const Section = styled.section`
+    .not-visible{
+        display: none;
+    }
+
+    .fa-check{
+        color: green;
+    }
+
+    .fa-xmark{
+        color: red;
+    }
 
 `
 

@@ -64,6 +64,9 @@ export const DataProvider = ({ children }) => {
                     console.log(err)
                 }
             }
+            else{
+                setUser(null)
+            }
         }, [login, fliker])
 
         

@@ -185,9 +185,16 @@ export async function createChallenge(Challenge) {
 }
 
 export const likePost = async (userId, postId) => {
+
+    const token = sessionStorage.getItem('User');
     try{
+        console.log(userId, postId)
         const date = new Date().toDateString()  
-        const response = await axios.post(`${URL}/like`, { userId, postId, date });
+        const response = await axios.post(`${URL}/like`, { userId, postId, date }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     }
     catch(err){
@@ -207,8 +214,13 @@ export const getLikesForPost = async (postId) => {
 };
 
 export const unlikePost = async (userId, postId) => {
+    const token = sessionStorage.getItem('User');
     try {
-        const response = await axios.post(`${URL}/unlike`, { userId, postId });
+        const response = await axios.post(`${URL}/unlike`, { userId, postId },{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
 
     } catch (error) {

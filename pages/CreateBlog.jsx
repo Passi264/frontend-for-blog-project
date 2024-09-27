@@ -2,12 +2,17 @@ import { Box, Button, Card, Center, Heading, FormControl, FormLabel, Input, Grid
 import { useSteps, Step, Steps } from "chakra-ui-steps"
 import { createPost, getChallenges } from "../src/api"
 import { useNavigate } from "react-router-dom";
-import {useState, useRef, useEffect, useCallback} from "react"
+import {useState, useRef, useEffect, useCallback, useContext} from "react"
 import JoditEditor from "jodit-react";
 import JoditConfig from "../components/JodEditor";
+import DataContext from "../src/DataContext";
+
 
 
 export function CreateBlog(){
+
+    const {user} = useContext(DataContext)
+
     // All the states for inputs 
     const editor = useRef(null)
     const [chlList, setChlist] = useState("")
@@ -39,12 +44,14 @@ export function CreateBlog(){
 
     // this is to render out active Challenges and sort them from latest to old
     useEffect(()=>{
-        async function LoadAllPosts(){
-            const data = await getChallenges()
-            data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
-            setChlist( () => data)
+        if(user){
+            async function LoadAllPosts(){
+                const data = await getChallenges()
+                data.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime())
+                setChlist( () => data)
+            }
+            LoadAllPosts()
         }
-        LoadAllPosts()
     }
     ,[])
 
@@ -121,6 +128,10 @@ export function CreateBlog(){
 
     function updateChid(e){
             setChid(e.target.value)
+    }
+
+    if(!user){
+            navigate('/login') 
     }
 
 return(

@@ -229,6 +229,15 @@ export const unlikePost = async (userId, postId) => {
     }
 };
 
+export const hasUserLikedPost = async (userId, postId) => {
+    try {
+        const response = await axios.get(`${URL}/hasLiked/${userId}/${postId}`);
+        return response.data; // { liked: true } or { liked: false }
+    } catch (error) {
+        console.error("Error checking like status:", error);
+        throw error; // Rethrow error to handle it later if needed
+    }
+};
 
 export const getUserLikes = async (userId) => {
     try {

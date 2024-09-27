@@ -12,70 +12,51 @@ export const DataProvider = ({ children }) => {
     const [posts, setPosts] = useState()
     const [user, setUser] = useState()
     const [challenges, setChallenges] = useState()
-    const [userLikes, setUserLikes] = useState()
 
-    useEffect( () => {
-        console.log('Context API rendered')
-            let token = sessionStorage.getItem("User")
-            if(token){
-                token = token.replace(/^"|"$/g, '')
-                const decoded = jwt_decode.jwtDecode(token)
 
-                try{
-                    async function fetching(decoded){
+    useEffect(() => {
+        let token = sessionStorage.getItem("User")
+        if(token){
+            token = token.replace(/^"|"$/g, '')
+            const decoded = jwt_decode.jwtDecode(token)
+            setUser(() => decoded)
+        }
+        else(
+            setUser(null)
+        )
 
-                        console.log('token was found')
-                        //decoded token has the user object
-                        setUser(()=> decoded)
-                        
+    }, [login, fliker])
 
-                        //fetching all posts
-                        const post = await getPosts()
-                        if(post === null ){
-                            return null
-                        }
-                        else{
-                            setPosts(()=> post)
-                        }
 
-                        //fetching all challenges
-                        const challenge = await getChallenges()
-                        if(challenge === null ){
-                            return null
-                        }
-                        else{
-                            setChallenges(()=> challenge)
-                        }
+    useEffect(() => {
 
-                        //fetching user's likes
-                        const likedPost = await getUserLikes(decoded._id)
-                        if(likedPost  === null ){
-                            return null
-                        }
-                        else{
-                            setUserLikes(()=> likedPost )
-                            console.log(userLikes)
-                        }
-                    }
-                    fetching(decoded)
-                }
+        const fetchPosts = async () => {
+            const posts = await getPosts();
+            setPosts(posts);
+        };
 
-                catch(err){
-                    console.log(err)
-                }
-            }
-            else{
-                setUser(null)
-            }
-        }, [login, fliker])
+        fetchPosts()
 
+    },[fliker])
+
+
+    useEffect(() => {
+
+        const fetchChallenges = async () => {
+            const challenges = await getChallenges();
+            setChallenges(challenges);
+          };
         
+          fetchChallenges()
+
+    },[fliker])
+
 
     const updateLog = () => setLogin(!login)
     const runFliker = () => setFliker(!fliker)
 
     return(
-        <DataContext.Provider value={{posts, challenges, user, login , updateLog, runFliker, fliker, userLikes }} >
+        <DataContext.Provider value={{posts, challenges, user, login , updateLog, runFliker, fliker }} >
             {children}
         </DataContext.Provider>
     )

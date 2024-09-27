@@ -31,6 +31,10 @@ export function Profile(){
                 console.warn('Invalid join date');
             }}
     }, [user])
+
+    // useEffect(()=>{
+
+    // })
     
 
     return(

@@ -94,7 +94,7 @@ return(
             </Heading>
                 { posts ? 
                 <SimpleGrid py='3dvh' spacing={8} templateColumns='repeat(auto-fill, minmax(27dvw, 1fr))' >
-                    {posts?.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime()).slice(0,3).map( (e, index) => {
+                    {posts?.sort((d1,d2)=> new Date(d2.dateCreated).getTime()- new Date(d1.dateCreated).getTime()).map( (e, index) => {
                     return(
                         <BlogCard post={e} key={index} />
                 )})}
